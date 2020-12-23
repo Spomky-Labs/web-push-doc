@@ -19,8 +19,9 @@
   * A JWT Provider. This library provides implementations for [web-token](https://web-token.spomky-labs.com) and [lcobucci/jwt](https://github.com/lcobucci/jwt)
 * Optional:
   * A PSR-6 \(Caching Interface\) implementation \(\*highly recommended\*\)
+  * A PSR-3 \(Logger Interface\) implementation for debugging
 
-### Payload extensions
+### Payload extension
 
 * Required:
   * `openssl` extension
