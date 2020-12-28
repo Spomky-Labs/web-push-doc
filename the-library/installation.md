@@ -1,6 +1,6 @@
 # Installation
 
-The bundle can be installed using the package `spomky-labs/web-push-bundle`
+The library can be installed using the package `spomky-labs/web-push-lib`
 
 In addition to this package, you must install the required dependencies that are namely:
 
@@ -10,12 +10,8 @@ In addition to this package, you must install the required dependencies that are
 In the following example, we will install nyholm/prs7 and symfony/http-client.
 
 ```bash
-composer install nyholm/psr7 symfony/http-client spomky-labs/web-push-bundle
+composer install nyholm/psr7 symfony/http-client spomky-labs/web-push-lib
 ```
-
-If you use Symfony Flex, the bundle is ready to be used. Otherwise, you must enable it. The bundle class is `WebPush\Bundle\WebPushBundle`.
-
-When done, the bundle is ready and can send the notifications. However, there are extra packages we highly recommend to install and set up.
 
 ## VAPID Header
 

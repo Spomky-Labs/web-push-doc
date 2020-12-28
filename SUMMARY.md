@@ -16,7 +16,9 @@
 
 ## The Library
 
-* [The Web Push Service](the-library/advanced-service.md)
+* [Installation](the-library/installation.md)
+* [The Extension Manager](the-library/advanced-service.md)
+* [The Web Push Service](the-library/the-web-push-service.md)
 
 ## The Symfony Bundle
 

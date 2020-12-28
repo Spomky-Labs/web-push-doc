@@ -30,6 +30,8 @@ if(!$statusReport->isSuccess()) {
 }
 ```
 
+## Subscription Lifecycle
+
 One of the failure reasons could be the expiration of the subscription \(too old or cancelled by the end-user\). This can be checked with the method `hasExpired()`. In this case, you should simply delete the subscription as it will always fail.
 
 ```php

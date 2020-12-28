@@ -7,9 +7,13 @@
 * PHP 7.4+
 * A PSR-17 \(HTTP Message Factory\) implementation
 * A PSR-18 \(HTTP Client\) implementation
-* The PHP JSON extension
+* The `JSON` extension
 
-## Extensions Specific
+## Optional
+
+* A PSR-3 \(Logger Interface\) implementation for debugging
+
+## Extension Specific
 
 ### VAPID extension
 

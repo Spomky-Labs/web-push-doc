@@ -1,8 +1,15 @@
 # The Notification
 
-To reach the client \(web browser\), you need to send a Notification.
+To reach the client \(web browser\), you need to send a Notification to the Subscription.
 
-It may have a payload. In this case, the payload will be encrypted on server side and decrypted by the client. The payload may be a string, or a JSON object. The structure of the latter is described in the next section.
+```php
+<?php
+use WebPush\Notification;
+
+$notification = Notification::create();
+```
+
+The Notification may have a payload. In this case, the payload will be encrypted on server side and decrypted by the client. The payload may be a string, or a JSON object. The structure of the latter is described in the next section.
 
 ```php
 <?php
@@ -51,7 +58,7 @@ To avoid consuming resources to receive trivial messages, it is helpful if an ap
 
 | Urgency | Device State | Examples |
 | :--- | :--- | :--- |
-| very-low\* | On power and Wi-Fi | Advertisements |
+| very-low | On power and Wi-Fi | Advertisements |
 | low | On either power or Wi-Fi | Topic updates |
 | normal | On neither power nor Wi-Fi | Chat or Calendar Message |
 | high | Low battery | Incoming phone call or time-sensitive alert |
@@ -127,10 +134,12 @@ $message = Message::create('Hello World!')
     ->withTag('foo')
     
     ->vibrate(300, 100, 400)
+    
+    ->toString() // Converts the Message object into a string
 ;
 
 $notification = Notification::create()
-    ->withPayload((string) $message)
+    ->withPayload($message)
 ;
 ```
 

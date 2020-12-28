@@ -2,7 +2,7 @@
 
 The bundle provides a public Web Push service that you can inject this service into your application components.
 
-In the following example, a notification is dispatch using the Symfony Messanger component to an event handler. This handler will fetch all subscritions and send the notification.
+In the following example, let's imagine that a notification is dispatched using the Symfony Messanger component and catched by an event handler. This handler will fetch all subscriptions and send the notification.
 
 {% hint style="info" %}
 The SubscriptionRepository class is totally fictive
@@ -35,7 +35,7 @@ final class DividendUpdateRequested implements MessageHandlerInterface
         $this->webPush = $webPush;
     }
 
-    public function __invoke(Notification $message): void
+    public function __invoke(Notification $notification): void
     {
         // Fetch all subscriptions
         $subscriptions = $this->repository->fetchAllSubscriptions();

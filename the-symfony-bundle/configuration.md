@@ -17,7 +17,7 @@ webpush:
 ```
 {% endcode %}
 
-When using lcobucci/jwt, the configuration is very similar.
+When using `lcobucci/jwt`, the configuration is very similar.
 
 {% code title="config/packages/webpush.yaml" %}
 ```yaml
@@ -33,7 +33,7 @@ webpush:
 {% endcode %}
 
 {% hint style="danger" %}
-You cannot enable both web-token and lcobucci/jwt at the same time
+You cannot enable both `web-token` and `lcobucci/jwt` at the same time
 {% endhint %}
 
 ### Caching
@@ -73,10 +73,10 @@ By default, the padding uses the "`recommended`" size \(~3k bytes\).
 
 Acceptable values for this parameter are:
 
-* none: no padding
+* `none`: no padding
 * `recommended`: default value
 * `max`: see warning below
-* an integer: should be between `1` and `4078` or `3993` for `AESGCM` and `AES128GCM` respectively
+* an integer: should be between `0` and `4078` or `3993` for `AESGCM` and `AES128GCM` respectively
 
 {% code title="config/packages/webpush.yaml" %}
 ```yaml
