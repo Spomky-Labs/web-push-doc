@@ -3,7 +3,6 @@
 * [Web-Push](README.md)
 * [Requirements](requirements.md)
 * [Fluent Syntax](fluent-syntax.md)
-* [Installation](installation.md)
 * [Contributing](contributing.md)
 * [License](license.md)
 
@@ -25,4 +24,5 @@
 * [Installation](the-symfony-bundle/installation.md)
 * [Configuration](the-symfony-bundle/configuration.md)
 * [The Web Push Service](the-symfony-bundle/untitled.md)
+* [Example](the-symfony-bundle/example.md)
 
