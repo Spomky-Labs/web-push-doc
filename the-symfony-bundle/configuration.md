@@ -36,38 +36,28 @@ webpush:
 You cannot enable both `web-token` and `lcobucci/jwt` at the same time
 {% endhint %}
 
-### Caching
+### Token Lifetime
 
-The computation of the VAPID header is fast using these libraries. In some cases, it may be interesting to use the caching feature. With this feature, the VAPID header will be put in cache and reused when possible.
-
-{% hint style="warning" %}
-This feature is recommended only if you send more than 5 notifications to the same subscriptions within 24 hours i.e. for applications where push notifications are essential
-{% endhint %}
+By default, the library generates VAPID headers that are valid for 1 hour. You can change this value if needed. The parameter requires a relative string as showed [in the PHP documentation](https://www.php.net/manual/en/datetime.formats.relative.php).
 
 {% code title="config/packages/webpush.yaml" %}
 ```yaml
 webpush:
   vapid:
     enabled: true
-    cache: Psr\Cache\CacheItemPoolInterface
-    cache_lifetime: 'now +1 hour' # Default: +30min
-    token_lifetime: 'now +2 hour' # Default: +1hour
+    token_lifetime: 'now +2 hours'
 ```
 {% endcode %}
 
 {% hint style="warning" %}
-The cache lifetime shall be lower than the token lifetime otherwise to will reuse expired JWS that will be rejected
-{% endhint %}
-
-{% hint style="info" %}
-The token lifetime should not be greater than 24 hours. Most of the Web Push Services will reject the tokens
+The token lifetime should not be greater than 24 hours. Most of the Web Push Services will reject such long-life tokens
 {% endhint %}
 
 ## Payload Support
 
 ### Padding
 
-To obfuscate the real length of the notifications, messages can be padded before encryption. This operation consists in the concatenation of your message and arbitrary data in front of it. When encrypted, the messages "Hello World" and "User XX sent you 100k$US today" will have the same size which reduces attacks.
+To obfuscate the real length of the notifications, messages can be padded before encryption. This operation consists in the concatenation of your message and arbitrary data in front of it. When encrypted, the messages "Hello World" and "User XX sent you $US  100k today" will have the same size which reduces attacks.
 
 By default, the padding uses the "`recommended`" size \(~3k bytes\).
 
