@@ -112,19 +112,19 @@ use WebPush\Notification;
 $message = Message::create('Hello World!')
     ->mute() // Silent
     ->unmute() // Not silent (default)
-    
+
     ->auto() //Direction = auto (default)
     ->ltr() //Direction = left to right
     ->rtl() //Direction = right to left
-    
+
     ->addAction(Action::create('alert', 'TITLE'))
-    
+
     ->interactionRequired()
     ->noInteraction()
-    
+
     ->renotify()
     ->doNotRenotify() // Default
-    
+
     ->withIcon('https://…')
     ->withImage('https://…')
     ->withData(['foo' => 'BAR']) // Arbitrary data
@@ -132,9 +132,9 @@ $message = Message::create('Hello World!')
     ->withLang('fr-FR')
     ->withTimestamp(time())
     ->withTag('foo')
-    
+
     ->vibrate(300, 100, 400)
-    
+
     ->toString() // Converts the Message object into a string
 ;
 

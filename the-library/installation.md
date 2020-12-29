@@ -7,10 +7,10 @@ In addition to this package, you must install the required dependencies that are
 * [A HTTP Client implementation](https://packagist.org/providers/psr/http-client-implementation)
 * [A PSR7 Request Factory implementation](https://packagist.org/providers/psr/http-factory-implementation)
 
-In the following example, we will install nyholm/prs7 and symfony/http-client.
+In the following example, we will install `nyholm/prs7` and `symfony/http-client`.
 
 ```bash
-composer install nyholm/psr7 symfony/http-client spomky-labs/web-push-lib
+composer require nyholm/psr7 symfony/http-client spomky-labs/web-push-lib
 ```
 
 ## VAPID Header

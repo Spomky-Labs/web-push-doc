@@ -57,9 +57,9 @@ The token lifetime should not be greater than 24 hours. Most of the Web Push Ser
 
 ### Padding
 
-To obfuscate the real length of the notifications, messages can be padded before encryption. This operation consists in the concatenation of your message and arbitrary data in front of it. When encrypted, the messages "Hello World" and "User XX sent you $US  100k today" will have the same size which reduces attacks.
+To obfuscate the real length of the notifications, messages can be padded before encryption. This operation consists in the concatenation of your message and arbitrary data in front of it. When encrypted, the messages will have the same size which reduces attacks.
 
-By default, the padding uses the "`recommended`" size \(~3k bytes\).
+By default, the padding is set to `recommended` i.e. ~3k bytes.
 
 Acceptable values for this parameter are:
 
@@ -84,7 +84,7 @@ Please don't use "`none`" unless your are sending notifications without any sens
 {% endhint %}
 
 {% hint style="warning" %}
-The value "`max`" increases the integrity protection of the message, but there are known issues on Android and notification are not correctly delivered.
+The value "`max`" increases the integrity protection of the messages, but there are known issues on Android and notification are not correctly delivered.
 {% endhint %}
 
 ### Caching

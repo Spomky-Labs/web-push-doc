@@ -6,7 +6,6 @@ description: Web Notifications made easy
 
 ![Illustration by Freepik Stories \(https://stories.freepik.com/communication\)](.gitbook/assets/messages-rafiki.svg)
 
-  
 WebPush can be used to send notifications to endpoints which server delivers Web Push notifications as described in the following specifications
 
 * The [RFC8030: Generic Event Delivery Using HTTP Push](https://tools.ietf.org/html/rfc8030)

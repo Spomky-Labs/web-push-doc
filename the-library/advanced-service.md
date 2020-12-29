@@ -5,7 +5,6 @@ The Web Push service requires an Extension Manager. This object manages extensio
 In the example below, we add all basic extensions.
 
 ```php
-
 use WebPush\ExtensionManager;
 use WebPush\PreferAsyncExtension;
 use WebPush\TopicExtension;
@@ -21,14 +20,14 @@ $extensionManager = ExtensionManager::create()
 ```
 
 {% hint style="info" %}
-Please note that the TTL Extension is mandatory for almost all Push Services
+Please note that the TTL Extension is usually required by Push Services
 {% endhint %}
 
-### Payload Extension
+## Payload Extension
 
 The payload extension allows Notifications to have a payload. This extension requires Content Encoding objects that will be responsible of the payload encryption.
 
-The library provides the AESGCM and AES128GCM content encoding. These encodings are normally supported by all Push Services. The library is able to support any future encoding is deemed necessary.
+The library provides the `AESGCM` and `AES128GCM` content encoding. These encodings are normally supported by all Push Services. The library is able to support any future encoding is deemed necessary.
 
 ```php
 $payloadExtension = PayloadExtension::create()
@@ -41,7 +40,7 @@ $extensionManager = ExtensionManager::create()
 ;
 ```
 
-### VAPID Extension
+## VAPID Extension
 
 The [VAPID header](../common-concepts/vapid.md) authenticates your server and prevent malicious application to send notifications to your users. The header contains a signed JSON Web Token \(JWS\).
 

@@ -5,9 +5,9 @@ In the documentation, you will see that methods are called “fluently”.
 ```php
 <?php
 
-use Minishlink\WebPush\Payload\AES128GCM;
-use Minishlink\WebPush\Payload\AESGCM;
-use Minishlink\WebPush\Payload\PayloadExtension;
+use WebPush\Payload\AES128GCM;
+use WebPush\Payload\AESGCM;
+use WebPush\Payload\PayloadExtension;
 
 $payloadExtension = PayloadExtension::create()
     ->addContentEncoding(AESGCM::create()->maxPadding())
@@ -20,9 +20,9 @@ If you don’t adhere to this coding style, you are free to use the “standard�
 ```php
 <?php
 
-use Minishlink\WebPush\Payload\AES128GCM;
-use Minishlink\WebPush\Payload\AESGCM;
-use Minishlink\WebPush\Payload\PayloadExtension;
+use WebPush\Payload\AES128GCM;
+use WebPush\Payload\AESGCM;
+use WebPush\Payload\PayloadExtension;
 
 $aesgcm = new AESGCM();
 $aesgcm->maxPadding();

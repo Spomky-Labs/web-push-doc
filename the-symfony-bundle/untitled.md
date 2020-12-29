@@ -42,7 +42,7 @@ final class DividendUpdateRequested implements MessageHandlerInterface
         foreach ($subscriptions as $subscription) {
             //Sends the notification to the subscriber
             $report = $this->webPush->send($notification, $subscription);
-            
+
             //If the subscription expired
             if ($report->subscriptionExpired()) {
                 //We dispatch a new message and expect for
@@ -54,7 +54,6 @@ final class DividendUpdateRequested implements MessageHandlerInterface
         }
     }
 }
-
 ```
 {% endcode %}
 

@@ -28,7 +28,7 @@ $subscription = Subscription::createFromString('{"endpoint":"https://updates.pus
 
 ## Supported Content Encodings
 
-By default, the content encoding `AESGCM` will be used. This encoding indicates how the payload of the notification should be encoded. The PushManager object from the Push API may list all acceptable encodings. In this case, it could be interesting to set these encodings to the Notification object.
+By default, the content encoding `aesgcm` will be used. This encoding indicates how the payload of the notification should be encoded. The PushManager object from the Push API may list all acceptable encodings. In this case, it could be interesting to set these encodings to the Notification object.
 
 ```javascript
 // Retreive the supported content encodings
@@ -46,6 +46,4 @@ fetch('/notification/add', {
     body: JSON.stringify(jsonSubscription ),
 });
 ```
-
-
 
