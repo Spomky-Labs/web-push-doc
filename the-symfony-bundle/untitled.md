@@ -22,7 +22,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use WebPush\Notification;
 use WebPush\WebPush;
 
-final class DividendUpdateRequested implements MessageHandlerInterface
+final class SendPushNotifications implements MessageHandlerInterface
 {
     private MessageBusInterface $messageBus;
     private SubscriptionRepository $repository;

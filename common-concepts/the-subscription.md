@@ -4,6 +4,10 @@ The subscription is created on client side when the end-user allows your applica
 
 On client side \(Javascript\), you can simply send to your server the object you receive using `JSON.stringify`.
 
+{% hint style="info" %}
+Javascript examples to get a Subscription from the web browser are not provided here. Please refer to other resources such as blog posts or library documentation.
+{% endhint %}
+
 A subscription object will look like:
 
 ```javascript
@@ -43,7 +47,24 @@ const jsonSubscription = Object.assign(
 // Send the subscription object to the application server
 fetch('/notification/add', {
     method: 'POST',
-    body: JSON.stringify(jsonSubscription ),
+    body: JSON.stringify(jsonSubscription),
 });
 ```
+
+This will result in something like as follow:
+
+```javascript
+{
+ "endpoint":"https://updates.push.services.mozilla.com/wpush/v2/AAAAAAAA[…]AAAAAAAAA",
+ "keys":{
+ "auth":"XXXXXXXXXXXXXX",
+ "p256dh":"YYYYYYYY[…]YYYYYYYYYYYYY",
+ "supportedContentEncodings":["aes128gcm","aesgcm"]
+ }
+}
+```
+
+{% hint style="warning" %}
+The order of `supportedContentEncodings` is important. First supported item will be used. If possible, `AES128GCM` should be used as prefered content encoding.
+{% endhint %}
 

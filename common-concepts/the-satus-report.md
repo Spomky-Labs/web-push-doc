@@ -9,6 +9,10 @@ This status report has the following properties:
 * The PSR-7 request
 * The PSR-7 response
 
+{% hint style="warning" %}
+Because of the presence of the Request and Response object, the StatusReport object cannot be serialized.
+{% endhint %}
+
 Depending on the status code, you will be able to know if it is a success or not. In case of success, you can directly access the management link \(`location` header parameter\) or the links entity fields in case of asynchronous call. In case of failure, the response code indicates the main reason for rejection \(invalid authorization token, expired endpoint...\)
 
 ```php

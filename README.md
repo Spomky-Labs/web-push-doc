@@ -14,5 +14,5 @@ WebPush can be used to send notifications to endpoints which server delivers Web
 
 In addition, some features from the [Push API](https://w3c.github.io/push-api/) are implemented. This specification is a working draft at the time of writing \(2020-11\).
 
-This project allows sending notifications on compatible browsers. List ans versions available at [https://caniuse.com/push-api](https://caniuse.com/push-api)
+This project allows sending notifications on compatible browsers. List and versions available at [https://caniuse.com/push-api](https://caniuse.com/push-api)
 

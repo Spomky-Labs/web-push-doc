@@ -9,7 +9,9 @@ use WebPush\Notification;
 $notification = Notification::create();
 ```
 
-The Notification may have a payload. In this case, the payload will be encrypted on server side and decrypted by the client. The payload may be a string, or a JSON object. The structure of the latter is described in the next section.
+The Notification should have a payload. In this case, the payload will be encrypted on server side and decrypted by the client.
+
+That payload may be a string, or a JSON object. The structure of the latter is described in the next section.
 
 ```php
 <?php
@@ -94,7 +96,7 @@ $notification = Notification::create()
 ```
 
 {% hint style="warning" %}
-The `async` mode is not recognised by all Web Push services. In case of failure, you should try sending `sync`'ed notifications.
+The `async` mode is not recognised by all Web Push services. In case of failure, you should try sending `sync`notifications.
 {% endhint %}
 
 ## JSON Messages

@@ -18,9 +18,13 @@
 * Required:
   * `openssl` extension
   * `mbstring` extension
-  * A JWT Provider. This library provides implementations for [web-token](https://web-token.spomky-labs.com) and [lcobucci/jwt](https://github.com/lcobucci/jwt)
+  * A JWT Provider
 * Optional:
   * A PSR-3 \(Logger Interface\) implementation for debugging
+
+{% hint style="success" %}
+This library provides JWT Provider implementations for [web-token](https://web-token.spomky-labs.com) and [lcobucci/jwt](https://github.com/lcobucci/jwt)
+{% endhint %}
 
 ### Payload extension
 
@@ -28,6 +32,6 @@
   * `openssl` extension
   * `mbstring` extension
 * Optional:
-  * A PSR-6 \(Caching Interface\) implementation \(\*highly recommended\*\)
+  * A PSR-6 \(Caching Interface\) implementation
   * A PSR-3 \(Logger Interface\) implementation for debugging
 
