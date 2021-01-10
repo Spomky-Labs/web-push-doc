@@ -29,5 +29,7 @@ $notification = Notification::create()
 $statusReport = $service->send($notification, $subscription);
 ```
 
-
+{% hint style="info" %}
+In this example, we load the Subscription object from a string, but usually to retrieve the Subscription objects from a database or a dedicated storage.
+{% endhint %}
 
