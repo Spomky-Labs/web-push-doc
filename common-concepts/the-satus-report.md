@@ -34,7 +34,7 @@ if(!$statusReport->isSuccess()) {
 }
 ```
 
-One of the failure reasons could be the expiration of the subscription \(too old or cancelled by the end-user\). This can be checked with the method `hasExpired()`. In this case, you should simply delete the subscription as it will always fail.
+One of the failure reasons could be the expiration of the subscription \(too old or cancelled by the end-user\). This can be checked with the method `hasExpired()`. In this case, you should simply delete the subscription as it is not possible to send notifications anymore.
 
 ```php
 <?php
