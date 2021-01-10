@@ -71,7 +71,7 @@ class Subscription extends WebPushSubscription
     }
 
     // We need to override this method as it returns a WebPush\Subscription and we want an entity
-    public static function createFromBaseSubscription(string $input): self
+    public static function createFromString(string $input): self
     {
         $base = BaseSubscription::createFromString($input);
         $object = new self($base->getEndpoint());
