@@ -73,14 +73,14 @@ Acceptable values for this parameter are:
 webpush:
   payload:
     aesgcm:
-      padding: 'none' # "none", "recommended", "max" or an integer
+      padding: 'none' # "none", "recommended", "max" or an integer (0 to 4078)
     aes128gcm:
-      padding: 'none' # "none", "recommended", "max" or an integer
+      padding: 'none' # "none", "recommended", "max" or an integer (0 to 3993)
 ```
 {% endcode %}
 
 {% hint style="danger" %}
-Please don't use "`none`" unless your are sending notifications without any sensitive data.
+Please don't use "`none`" unless your are sending notifications in a development environment.
 {% endhint %}
 
 {% hint style="warning" %}
@@ -99,9 +99,7 @@ To reduce the impact on your server, you can enable the caching feature and reus
 As encryption keys will be stored in the cache, you should make sure the cache is not shared otherwise you may have a security issue.
 {% endhint %}
 
-To enable this feature, you just need to define the PSR-3
-
-This parameter requires a PSR-6 Cache. If you set `Psr\Log\CacheItemPoolInterface`, the Symfony cache will be used \(PSR-6 copmpatible\).
+This parameter requires a PSR-6 Cache compatible service. If you set `Psr\Log\CacheItemPoolInterface`, the default Symfony cache will be used.
 
 {% code title="config/packages/webpush.yaml" %}
 ```yaml

@@ -2,7 +2,7 @@
 
 The bundle provides new Doctrine types to simplify the way you store the `Subscription` objects with Doctrine.
 
-You can send notifications to any users, even if they are not registered in your application. But let say you want to be able to notify your users when they receive new messages on their dashborad \(e.g. an answer to a ticket\).
+You can send notifications to any users, even if they are not registered in your application. But let say you want to be able to notify your users when they receive new messages on their dashboard \(e.g. an answer to a ticket\).
 
 {% hint style="info" %}
 In the example below, we consider you already have a working application with a `User` entity.
@@ -21,7 +21,7 @@ This will tell the bundle to register new Doctrine types and mappings. The Doctr
 
 ## The `Subscription` Entity
 
-First of all, we need to create a Subscription Entity that extends the Subscription object. We also need to associate one or more Subscription entities to a specific user \(Many To One relationship\).
+First of all, we need to create a Subscription Entity that extends the Subscription object. In this example, we also need to associate one or more Subscription entities to a specific user \(Many To One relationship\).
 
 {% code title="src/Entity/Subscription.php" %}
 ```php
@@ -87,7 +87,7 @@ class Subscription extends WebPushSubscription
 {% endcode %}
 
 {% hint style="info" %}
-We allow `$user` to be `null` because anonymous user could also want to receive push notifications
+We allow `$user` to be `null` because anonymous user may also want to receive push notifications
 {% endhint %}
 
 ## The `User` Entity

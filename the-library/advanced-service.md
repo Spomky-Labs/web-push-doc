@@ -36,7 +36,7 @@ $payloadExtension = PayloadExtension::create()
 ;
 
 $extensionManager = ExtensionManager::create()
-    ->add($payloadExtension )
+    ->add($payloadExtension)
 ;
 ```
 

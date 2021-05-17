@@ -40,7 +40,7 @@ One of the failure reasons could be the expiration of the subscription \(too old
 <?php
 
 if($statusReport->hasExpired()) {
-    $this->subscriptionRepository->remove($statusReport);
+    $this->subscriptionRepository->remove($subscription);
 }
 ```
 

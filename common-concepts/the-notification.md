@@ -11,7 +11,7 @@ $notification = Notification::create();
 
 The Notification should have a payload. In this case, the payload will be encrypted on server side and decrypted by the client.
 
-That payload may be a string, or a JSON object. The structure of the latter is described in the next section.
+That payload may be a string or a JSON object. The structure of the latter is described in the next section.
 
 ```php
 <?php
@@ -101,7 +101,7 @@ The `async` mode is not recognised by all Web Push services. In case of failure,
 
 ## JSON Messages
 
-You may have noticed that the specification [defines a structure for the payload](https://notifications.spec.whatwg.org/#notifications). This structure contains properties that the client should be understood and render an appropriate way.
+As mentioned in the overview section, the specification [defines a structure for the payload](https://notifications.spec.whatwg.org/#notifications). This structure contains properties that the client should be understood and render an appropriate way.
 
 The library provides a `WebPush\Message` class with convenient methods to ease the creation of a message.
 
@@ -119,7 +119,7 @@ $message = Message::create('Hello World!')
     ->ltr() //Direction = left to right
     ->rtl() //Direction = right to left
 
-    ->addAction(Action::create('alert', 'TITLE'))
+    ->addAction(Action::create('alert', 'Click me!'))
 
     ->interactionRequired()
     ->noInteraction()
