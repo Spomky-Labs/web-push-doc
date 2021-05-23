@@ -49,6 +49,9 @@ The library provides bridges for the following libraries `web-token` and `lcobuc
 Please install `web-token/jwt-signature-algorithm-ecdsa` or `lcobucci/jwt` depending on the library you want to use.
 
 ```php
+use WebPush\VAPID\WebTokenProvider;
+use WebPush\VAPID\LcobucciProvider;
+
 // Web-Token
 $jwsProvider = WebTokenProvider::create(
     'BB4W1qfBi7MF_Lnrc6i2oL-glAuKF4kevy9T0k2vyKV4qvuBrN3T6o9-7-NR3mKHwzDXzD3fe7XvIqIU1iADpGQ', // Public key
@@ -56,7 +59,7 @@ $jwsProvider = WebTokenProvider::create(
 );
 
 // lcobucci/jwt
-$jwsProvider = WebTokenProvider::create(
+$jwsProvider = LcobucciProvider::create(
     'BB4W1qfBi7MF_Lnrc6i2oL-glAuKF4kevy9T0k2vyKV4qvuBrN3T6o9-7-NR3mKHwzDXzD3fe7XvIqIU1iADpGQ',
     'C40jLFSa5UWxstkFvdwzT3eHONE2FIJSEsVIncSCAqU'
 );
