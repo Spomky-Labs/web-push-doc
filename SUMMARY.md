@@ -28,3 +28,7 @@
 * [Doctrine](the-symfony-bundle/doctrine.md)
 * [Example](the-symfony-bundle/example.md)
 
+---
+
+* [What’s New in v1.1?](whats-new-in-v1.1.md)
+
