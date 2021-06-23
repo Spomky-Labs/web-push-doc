@@ -12,7 +12,7 @@ The following interfaces have been introduced:
 
 It is no longer required to use the concrete classes. You can use your own objects to be transported and sent.
 
-Methods provided by the WebPush service, the extensions or the extension manager has been updated to always use the interfaces instead of the classes.
+Methods provided by the WebPush service, the extensions or the extension manager have been updated to always use the interfaces instead of the classes.
 
 ### Deprecations
 
