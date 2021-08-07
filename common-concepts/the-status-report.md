@@ -1,4 +1,4 @@
-# The Satus Report
+# The Status Report
 
 After sending a notification, you will receive a StatusReport object.
 
