@@ -11,7 +11,7 @@
 * [Overview](common-concepts/overview.md)
 * [The Subscription](common-concepts/the-subscription.md)
 * [The Notification](common-concepts/the-notification.md)
-* [The Satus Report](common-concepts/the-satus-report.md)
+* [The Status Report](common-concepts/the-status-report.md)
 * [VAPID](common-concepts/vapid.md)
 
 ## The Library

@@ -13,7 +13,7 @@ $requestFactory = new Psr17Factory();
 $service = new WebPush($client, $requestFactory, $extensionManager);
 ```
 
-The service is now ready to send Notifications to the Subscriptions. The StatusReport object that is returned [is explained here](../common-concepts/the-satus-report.md).
+The service is now ready to send Notifications to the Subscriptions. The StatusReport object that is returned [is explained here](../common-concepts/the-status-report.md).
 
 ```php
 <?php
