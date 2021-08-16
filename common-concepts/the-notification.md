@@ -101,7 +101,7 @@ The `async` mode is not recognised by all Web Push services. In case of failure,
 
 ## JSON Messages
 
-As mentioned in the overview section, the specification [defines a structure for the payload](https://notifications.spec.whatwg.org/#notifications). This structure contains properties that the client should be understood and render an appropriate way.
+As mentioned in the overview section, the specification [defines a structure for the payload](https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification#parameters). This structure contains properties that the client should be understood and render an appropriate way.
 
 The library provides a `WebPush\Message` class with convenient methods to ease the creation of a message.
 
@@ -111,7 +111,7 @@ use WebPush\Action;
 use WebPush\Message;
 use WebPush\Notification;
 
-$message = Message::create('Hello World!')
+$message = Message::create('This is the title', null, true)
     ->mute() // Silent
     ->unmute() // Not silent (default)
 
@@ -126,6 +126,8 @@ $message = Message::create('Hello World!')
 
     ->renotify()
     ->doNotRenotify() // Default
+    
+    ->withBody('Hello World!')
 
     ->withIcon('https://…')
     ->withImage('https://…')
@@ -143,5 +145,51 @@ $message = Message::create('Hello World!')
 $notification = Notification::create()
     ->withPayload($message)
 ;
+```
+
+{% hint style="info" %}
+Please note that the second and the third parameters are needed for `v1.1+` branch but bill be removed in `v2.0`.
+{% endhint %}
+
+The resulting notification payload will look like as follow:
+
+```javascript
+{
+    "title":"This is the title",
+    "options":{
+        "actions":[
+            {
+                "action":"alert",
+                "title":"Click me!"
+            }
+        ],
+        "badge":"badge1",
+        "body":"Hello World!",
+        "data":{
+            "foo":"BAR"
+        },
+        "dir":"rtl",
+        "icon":"https://…",
+        "image":"https://…",
+        "l ang":"fr-FR",
+        "renotify":false,
+        "requireInteraction":false,
+        "silent":false,
+        "tag":"foo",
+        "timestamp":1629145424,
+        "vibrate":[
+            300,
+            100,
+            400
+        ]
+    }
+}
+```
+
+On client side, you can easily load that payload and display the notification:
+
+```javascript
+  const {title, options}  = payload;
+  const notification = new Notification(title, options);
 ```
 
