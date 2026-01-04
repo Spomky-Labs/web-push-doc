@@ -29,8 +29,17 @@ The payload extension allows Notifications to have a payload. This extension req
 
 The library provides the `AESGCM` and `AES128GCM` content encoding. These encodings are normally supported by all Push Services. The library is able to support any future encoding if deemed necessary.
 
+Both content encodings require a PSR-20 Clock implementation. You can use `symfony/clock` for example.
+
 ```php
-$clock = //PSR-20 clock
+use Psr\Clock\ClockInterface;
+use Symfony\Component\Clock\NativeClock;
+use WebPush\Payload\AES128GCM;
+use WebPush\Payload\AESGCM;
+use WebPush\Payload\PayloadExtension;
+
+$clock = new NativeClock(); // PSR-20 clock implementation
+
 $payloadExtension = PayloadExtension::create()
     ->addContentEncoding(AESGCM::create($clock))
     ->addContentEncoding(AES128GCM::create($clock))
@@ -49,9 +58,16 @@ The library provides bridges for the following libraries `web-token` and `lcobuc
 
 Please install `web-token/jwt-signature-algorithm-ecdsa` or `lcobucci/jwt` depending on the library you want to use.
 
+The VAPID extension requires a PSR-20 Clock implementation. You can use `symfony/clock` for example.
+
 ```php
-use WebPush\VAPID\WebTokenProvider;
+use Psr\Clock\ClockInterface;
+use Symfony\Component\Clock\NativeClock;
 use WebPush\VAPID\LcobucciProvider;
+use WebPush\VAPID\VAPIDExtension;
+use WebPush\VAPID\WebTokenProvider;
+
+$clock = new NativeClock(); // PSR-20 clock implementation
 
 // Web-Token
 $jwsProvider = WebTokenProvider::create(
@@ -59,15 +75,15 @@ $jwsProvider = WebTokenProvider::create(
     'C40jLFSa5UWxstkFvdwzT3eHONE2FIJSEsVIncSCAqU' // Private key
 );
 
-// lcobucci/jwt
+// OR lcobucci/jwt
 $jwsProvider = LcobucciProvider::create(
     'BB4W1qfBi7MF_Lnrc6i2oL-glAuKF4kevy9T0k2vyKV4qvuBrN3T6o9-7-NR3mKHwzDXzD3fe7XvIqIU1iADpGQ',
     'C40jLFSa5UWxstkFvdwzT3eHONE2FIJSEsVIncSCAqU'
 );
 
 $extensionManager = ExtensionManager::create()
-    ->add(VAPIDExtension::create('http://my-service.com', $jwsProvider)
-);
+    ->add(VAPIDExtension::create('http://my-service.com', $jwsProvider, $clock))
+;
 ```
 
 {% hint style="danger" %}

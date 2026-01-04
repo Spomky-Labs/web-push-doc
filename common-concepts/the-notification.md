@@ -111,7 +111,7 @@ use WebPush\Action;
 use WebPush\Message;
 use WebPush\Notification;
 
-$message = Message::create('This is the title', null, true)
+$message = Message::create('This is the title')
     ->mute() // Silent
     ->unmute() // Not silent (default)
 
@@ -126,7 +126,7 @@ $message = Message::create('This is the title', null, true)
 
     ->renotify()
     ->doNotRenotify() // Default
-    
+
     ->withBody('Hello World!')
 
     ->withIcon('https://…')
