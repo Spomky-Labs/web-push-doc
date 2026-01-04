@@ -8,7 +8,7 @@ composer require spomky-labs/web-push-lib
 
 ## VAPID Header
 
-The [VAPID header](../common-concepts/vapid.md) authenticates your server and prevent malicious application to send notifications to your users. The header contains a signed JSON Web Token (JWS).
+The [VAPID header](../common-concepts/vapid.md) authenticates your server and prevents malicious applications from sending notifications to your users. The header contains a signed JSON Web Token (JWS).
 
 The library provides bridges for the following libraries `web-token` and `lcobucci/jwt`.
 

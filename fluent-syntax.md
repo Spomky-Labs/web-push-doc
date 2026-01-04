@@ -15,7 +15,7 @@ $payloadExtension = PayloadExtension::create()
 ;
 ```
 
-If you don’t adhere to this coding style, you are free to use the “standard” way of coding. The following example has the same behavior ase above.
+If you don't adhere to this coding style, you are free to use the "standard" way of coding. The following example has the same behavior as above.
 
 ```php
 <?php

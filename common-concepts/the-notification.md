@@ -66,7 +66,7 @@ To avoid consuming resources to receive trivial messages, it is helpful if an ap
 | high     | Low battery                | Incoming phone call or time-sensitive alert |
 
 {% hint style="warning" %}
-Be carful with the `very-low` urgency: it is not recognized by all Web-Push services
+Be careful with the `very-low` urgency: it is not recognized by all Web-Push services
 {% endhint %}
 
 ```php
@@ -96,12 +96,12 @@ $notification = Notification::create()
 ```
 
 {% hint style="warning" %}
-The `async` mode is not recognised by all Web Push services. In case of failure, you should try sending `sync`notifications.
+The `async` mode is not recognized by all Web Push services. In case of failure, you should try sending `sync` notifications.
 {% endhint %}
 
 ## JSON Messages
 
-As mentioned in the overview section, the specification [defines a structure for the payload](https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification#parameters). This structure contains properties that the client should be understood and render an appropriate way.
+As mentioned in the overview section, the specification [defines a structure for the payload](https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification#parameters). This structure contains properties that the client should understand and render in an appropriate way.
 
 The library provides a `WebPush\Message` class with convenient methods to ease the creation of a message.
 
@@ -147,7 +147,7 @@ $notification = Notification::create()
 ;
 ```
 
-The resulting notification payload will look like as follow:
+The resulting notification payload will look as follows:
 
 ```javascript
 {

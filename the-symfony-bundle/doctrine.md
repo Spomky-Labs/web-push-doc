@@ -64,11 +64,11 @@ class Subscription extends WebPushSubscription
     // We need to override this method as it returns a WebPush\Subscription and we want an entity
     public static function createFromString(string $input): self
     {
-        $base = BaseSubscription::createFromString($input);
+        $base = parent::createFromString($input);
         $object = new self($base->getEndpoint());
         $object->withContentEncodings($base->getSupportedContentEncodings());
-        foreach ($base->getKeys()->all() as $k => $v) {
-            $object->getKeys()->set($k, $v);
+        foreach ($base->getKeys() as $k => $v) {
+            $object->setKey($k, $v);
         }
 
         return $object;
@@ -78,7 +78,7 @@ class Subscription extends WebPushSubscription
 {% endcode %}
 
 {% hint style="info" %}
-In this exaple, we assume you already have a valid User entity class.
+In this example, we assume you already have a valid User entity class.
 {% endhint %}
 
 ### The `User` Entity
@@ -112,15 +112,15 @@ class User //Usual interface here
 
     public function __construct()
     {
-        $this->notifications = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
     }
 
     /**
-     * @return Notification[]
+     * @return Subscription[]
      */
     public function getSubscriptions(): array
     {
-        return $this->notifications->toArray();
+        return $this->subscriptions->toArray();
     }
 
     public function addSubscription(Subscription $subscription): self
@@ -133,7 +133,7 @@ class User //Usual interface here
 
     public function removeSubscription(Subscription $subscription): self
     {
-        $child->setUser(null);
+        $subscription->setUser(null);
         $this->subscriptions->removeElement($subscription);
 
         return $this;

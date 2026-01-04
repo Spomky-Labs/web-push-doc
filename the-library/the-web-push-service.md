@@ -1,6 +1,6 @@
 # The Web Push Service
 
-The WebPush object requires a [HTTP Client](https://symfony.com/doc/current/http\_client.html) and an [Extension Manager](advanced-service.md).
+The WebPush object requires a [HTTP Client](https://symfony.com/doc/current/http_client.html) and an [Extension Manager](advanced-service.md).
 
 ```php
 use Symfony\Component\HttpClient\HttpClient;
@@ -28,5 +28,5 @@ $statusReport = $service->send($notification, $subscription);
 ```
 
 {% hint style="info" %}
-In this example, we load the Subscription object from a string, but usually to retrieve the Subscription objects from a database or a dedicated storage.
+In this example, we load the Subscription object from a string, but you usually retrieve the Subscription objects from a database or a dedicated storage.
 {% endhint %}

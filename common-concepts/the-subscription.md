@@ -35,7 +35,7 @@ $subscription = Subscription::createFromString('{"endpoint":"https://updates.pus
 By default, the content encoding `aesgcm` will be used. This encoding indicates how the payload of the notification should be formatted. The PushManager object from the Push API may list all acceptable encodings. In this case, it could be interesting to set these encodings to the Subscription object.
 
 ```javascript
-// Retreive the supported content encodings
+// Retrieve the supported content encodings
 const supportedContentEncodings = PushManager.supportedContentEncodings || ['aesgcm'];
 
 // Assign the encodings to the subscription object
@@ -51,7 +51,7 @@ fetch('/subscription/add', {
 });
 ```
 
-This will result in something like as follow:
+This will result in something like the following:
 
 ```javascript
 {
@@ -65,5 +65,5 @@ This will result in something like as follow:
 ```
 
 {% hint style="warning" %}
-The order of `supportedContentEncodings` is important. First supported item will be used. If possible, `AES128GCM` should be used as prefered content encoding.
+The order of `supportedContentEncodings` is important. First supported item will be used. If possible, `AES128GCM` should be used as preferred content encoding.
 {% endhint %}

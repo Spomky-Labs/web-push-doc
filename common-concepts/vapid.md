@@ -4,9 +4,9 @@ description: Voluntary Application Server Identification
 
 # VAPID
 
-“**VAPID**” stands for “**V**oluntary **Ap**plication Server **Id**entification”.
+"**VAPID**" stands for "**V**oluntary **Ap**plication Server **Id**entification".
 
-This feature allows to application server to send information about itself to a push service.
+This feature allows the application server to send information about itself to a push service.
 
 A consistent identity can be used by a push service to establish behavioral expectations for an application server. Significant deviations from an established norm can then be used to trigger exception-handling procedures.
 
