@@ -58,9 +58,9 @@ This will result in something like the following:
  "endpoint":"https://updates.push.services.mozilla.com/wpush/v2/AAAAAAAA[…]AAAAAAAAA",
  "keys":{
  "auth":"XXXXXXXXXXXXXX",
- "p256dh":"YYYYYYYY[…]YYYYYYYYYYYYY",
+ "p256dh":"YYYYYYYY[…]YYYYYYYYYYYYY"
+ },
  "supportedContentEncodings":["aes128gcm","aesgcm"]
- }
 }
 ```
 
