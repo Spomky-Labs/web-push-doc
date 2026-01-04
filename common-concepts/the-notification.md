@@ -185,6 +185,308 @@ The resulting notification payload will look as follows:
 On client side, you can easily load that payload and display the notification:
 
 ```javascript
-  const {title, options}  = payload;
-  const notification = new Notification(title, options);
+self.addEventListener('push', function(event) {
+    const data = event.data.json();
+    const {title, ...options} = data;
+
+    event.waitUntil(
+        self.registration.showNotification(title, options)
+    );
+});
 ```
+
+## Best Practices
+
+### Choose Appropriate TTL Values
+
+The Time-To-Live (TTL) determines how long notifications are retained if the user is offline:
+
+```php
+// Time-sensitive: expires quickly
+$urgentNotification = Notification::create()
+    ->withPayload('Flash sale ends in 10 minutes!')
+    ->withTTL(600); // 10 minutes
+
+// Important but not urgent
+$normalNotification = Notification::create()
+    ->withPayload('New message from John')
+    ->withTTL(86400); // 24 hours
+
+// Persistent notification
+$persistentNotification = Notification::create()
+    ->withPayload('New feature available')
+    ->withTTL(604800); // 7 days
+```
+
+### Use Topics Wisely
+
+Topics prevent notification spam by replacing old notifications with new ones:
+
+```php
+// Weather updates - only show the latest
+$weatherUpdate = Notification::create()
+    ->withTopic('weather-alert')
+    ->withPayload($latestWeatherData);
+
+// Stock price updates - replace with latest price
+$stockUpdate = Notification::create()
+    ->withTopic('stock-AAPL')
+    ->withPayload($currentPrice);
+
+// User mentions - don't replace, show all
+$mention = Notification::create()
+    // No topic - each mention is shown separately
+    ->withPayload('Sarah mentioned you in a comment');
+```
+
+### Set Appropriate Urgency
+
+Match urgency to content to optimize battery life:
+
+```php
+// High urgency - user needs to act immediately
+Notification::create()
+    ->highUrgency()
+    ->withPayload('Your bank account requires immediate attention')
+    ->withTTL(3600);
+
+// Normal urgency - standard messages
+Notification::create()
+    ->normalUrgency()
+    ->withPayload('New comment on your post')
+    ->withTTL(86400);
+
+// Low urgency - can wait
+Notification::create()
+    ->lowUrgency()
+    ->withPayload('Weekly summary available')
+    ->withTTL(604800);
+
+// Very low urgency - promotional content
+Notification::create()
+    ->veryLowUrgency()
+    ->withPayload('Check out our new products')
+    ->withTTL(2592000); // 30 days
+```
+
+### Craft Effective Messages
+
+Good notification messages are:
+- **Clear**: User understands the content immediately
+- **Actionable**: User knows what to do next
+- **Concise**: Get to the point quickly
+- **Relevant**: Personalized to the user
+
+```php
+use WebPush\Message;
+use WebPush\Action;
+
+// Example: E-commerce order notification
+$message = Message::create('Order Shipped!')
+    ->withBody('Your order #12345 is on its way')
+    ->withIcon('/icons/shipping.png')
+    ->withBadge('/icons/badge.png')
+    ->withData([
+        'orderId' => '12345',
+        'trackingUrl' => 'https://example.com/track/12345'
+    ])
+    ->addAction(Action::create('track', 'Track Package'))
+    ->addAction(Action::create('view', 'View Order'))
+    ->interactionRequired(); // User must interact
+
+$notification = Notification::create()
+    ->withPayload($message->toString())
+    ->normalUrgency()
+    ->withTTL(86400);
+```
+
+### Optimize for Mobile
+
+Mobile devices have limited battery and screen space:
+
+```php
+// Mobile-optimized notification
+$mobileNotification = Message::create('New Message')
+    ->withBody('John: Can we meet tomorrow?')
+    ->withIcon('/icons/chat-64.png') // Small icon
+    ->withBadge('/icons/unread-badge.png')
+    ->withData(['chatId' => '123', 'userId' => '456'])
+    ->addAction(Action::create('reply', 'Reply'))
+    ->addAction(Action::create('view', 'View'))
+    ->withTag('chat-123') // Group related notifications
+    ->renotify() // Alert user even if previous notification exists
+    ->vibrate(200, 100, 200); // Short vibration pattern
+```
+
+## Common Notification Patterns
+
+### 1. Chat Message
+
+```php
+$chatMessage = Message::create($senderName)
+    ->withBody($messagePreview)
+    ->withIcon($senderAvatar)
+    ->withBadge('/icons/message-badge.png')
+    ->withData([
+        'chatId' => $chatId,
+        'senderId' => $senderId,
+        'messageId' => $messageId
+    ])
+    ->addAction(Action::create('reply', 'Reply'))
+    ->addAction(Action::create('view', 'View'))
+    ->withTag("chat-{$chatId}") // Group by conversation
+    ->renotify()
+    ->withTimestamp(time());
+
+$notification = Notification::create()
+    ->withPayload($chatMessage->toString())
+    ->highUrgency()
+    ->withTTL(3600);
+```
+
+### 2. System Alert
+
+```php
+$alert = Message::create('System Maintenance')
+    ->withBody('Scheduled maintenance in 30 minutes')
+    ->withIcon('/icons/warning.png')
+    ->withBadge('/icons/alert-badge.png')
+    ->interactionRequired()
+    ->withTag('system-maintenance')
+    ->vibrate(300, 200, 300);
+
+$notification = Notification::create()
+    ->withPayload($alert->toString())
+    ->highUrgency()
+    ->withTTL(1800);
+```
+
+### 3. News Update
+
+```php
+$news = Message::create('Breaking News')
+    ->withBody($headline)
+    ->withIcon('/icons/news.png')
+    ->withImage($articleImage)
+    ->withData(['articleId' => $articleId])
+    ->addAction(Action::create('read', 'Read Article'))
+    ->withTag('news')
+    ->withTimestamp(time());
+
+$notification = Notification::create()
+    ->withPayload($news->toString())
+    ->normalUrgency()
+    ->withTopic('breaking-news')
+    ->withTTL(86400);
+```
+
+### 4. Silent Background Sync
+
+```php
+// Silent notification for background sync
+$syncNotification = Notification::create()
+    ->withPayload(json_encode(['type' => 'sync', 'data' => $syncData]))
+    ->async()
+    ->lowUrgency()
+    ->withTTL(0); // Deliver immediately or not at all
+```
+
+## Handling Delivery Failures
+
+Always handle failures gracefully:
+
+```php
+use WebPush\Notification;
+use WebPush\WebPushService;
+
+/** @var WebPushService $webPush */
+/** @var Subscription $subscription */
+
+try {
+    $notification = Notification::create()
+        ->withPayload($message->toString())
+        ->withTTL(86400);
+
+    $report = $webPush->send($notification, $subscription);
+
+    if (!$report->isSuccess()) {
+        // Log the failure
+        $logger->error('Notification delivery failed', [
+            'subscription' => $subscription->getEndpoint(),
+            'error' => $report->getLocation()
+        ]);
+
+        // Handle expired subscriptions
+        if ($report->isSubscriptionExpired()) {
+            $subscriptionRepository->remove($subscription);
+        }
+    }
+} catch (\Throwable $e) {
+    $logger->error('Exception sending notification', [
+        'message' => $e->getMessage(),
+        'subscription' => $subscription->getEndpoint()
+    ]);
+}
+```
+
+## Testing Notifications
+
+Always test your notifications before sending to production:
+
+```php
+// Create a test notification
+$testNotification = Message::create('Test Notification')
+    ->withBody('This is a test')
+    ->withIcon('/test-icon.png')
+    ->toString();
+
+// Send to your own subscription
+$report = $webPush->send(
+    Notification::create()->withPayload($testNotification),
+    $yourTestSubscription
+);
+
+// Verify delivery
+assert($report->isSuccess(), 'Test notification failed to send');
+```
+
+## Performance Considerations
+
+### Batch Sending
+
+When sending to many subscriptions, batch efficiently:
+
+```php
+$subscriptions = $repository->getAllActive();
+$notification = Notification::create()->withPayload($message);
+
+foreach ($subscriptions as $subscription) {
+    // Send asynchronously when possible
+    $report = $webPush->send($notification, $subscription);
+
+    // Cleanup expired subscriptions immediately
+    if ($report->isSubscriptionExpired()) {
+        $repository->remove($subscription);
+    }
+}
+```
+
+### Respect Rate Limits
+
+Push services have rate limits. Implement throttling:
+
+```php
+$rateLimit = 100; // notifications per second
+$delay = 1000000 / $rateLimit; // microseconds
+
+foreach ($subscriptions as $subscription) {
+    $webPush->send($notification, $subscription);
+    usleep($delay);
+}
+```
+
+## Next Steps
+
+- Understand [Status Reports](the-status-report.md) to handle delivery results
+- Learn about [Subscriptions](the-subscription.md) management
+- Set up [VAPID](vapid.md) for secure authentication
