@@ -1,23 +1,17 @@
 # Doctrine
 
-The bundle provides new Doctrine type and Schema to simplify the way you store the `Subscription` objects with Doctrine.
+This section explains how to store `Subscription` objects using Doctrine ORM in your Symfony application.
 
-## Using The Doctrine Mapping
+## Creating a Subscription Entity
 
-### Configuration
+To persist subscriptions in your database, you need to create a Doctrine entity. There are two approaches:
 
-To enable this feature, the following configuration option  shall be set:
+1. **Extend the base `WebPush\Subscription` class** (recommended for simplicity)
+2. **Implement the `WebPush\SubscriptionInterface` interface** (more flexibility)
 
-```yaml
-webpush:
-    doctrine_mapping: true
-```
+### Approach 1: Extending the Base Class
 
-This will tell the bundle to register the Subscription object as a Doctrine mapped-superclass. The DoctrineBundle shall be enabled. No additional configuration is required.
-
-### The `Subscription` Entity
-
-First of all, we need to create a Subscription Entity that extends the Subscription object. In this example, we also need to associate one or more Subscription entities to a specific user (Many To One relationship).
+In this example, we create a Subscription entity that extends the base `WebPush\Subscription` class. We also associate one or more Subscription entities to a specific user (Many-To-One relationship).
 
 {% code title="src/Entity/Subscription.php" %}
 ```php
@@ -158,6 +152,107 @@ foreach ($subscriptions as $subscription) {
 ```
 {% endcode %}
 
-## Using Your Own Entity Class
+### Approach 2: Implementing the Interface Directly
 
-It is possible to use your own Subscription entity class. The only constraint is that it shall implement the interface `WebPush\SubscriptionInterface` or shall have a method that returns an object that implements this interface.
+Instead of extending the `WebPush\Subscription` class, you can create your own entity class that implements the `WebPush\SubscriptionInterface` interface. This approach gives you more flexibility in how you structure your entity.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use WebPush\SubscriptionInterface;
+
+#[ORM\Table(name: 'subscriptions')]
+#[ORM\Entity]
+class Subscription implements SubscriptionInterface
+{
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    private ?int $id = null;
+
+    #[ORM\Column(type: 'string')]
+    private string $endpoint;
+
+    #[ORM\Column(type: 'json')]
+    private array $keys = [];
+
+    #[ORM\Column(type: 'json')]
+    private array $supportedContentEncodings = ['aesgcm'];
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $expirationTime = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'], inversedBy: 'subscriptions')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true)]
+    private ?User $user;
+
+    public function __construct(string $endpoint)
+    {
+        $this->endpoint = $endpoint;
+    }
+
+    // Implement all methods from SubscriptionInterface
+    public function getEndpoint(): string
+    {
+        return $this->endpoint;
+    }
+
+    public function getKeys(): array
+    {
+        return $this->keys;
+    }
+
+    public function hasKey(string $key): bool
+    {
+        return isset($this->keys[$key]);
+    }
+
+    public function getKey(string $key): string
+    {
+        return $this->keys[$key] ?? throw new \RuntimeException('Key not found');
+    }
+
+    public function getSupportedContentEncodings(): array
+    {
+        return $this->supportedContentEncodings;
+    }
+
+    public function getExpirationTime(): ?int
+    {
+        return $this->expirationTime;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'endpoint' => $this->endpoint,
+            'keys' => $this->keys,
+            'supportedContentEncodings' => $this->supportedContentEncodings,
+        ];
+    }
+
+    // Additional methods for Doctrine
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+        return $this;
+    }
+}
+```
+
+Both approaches (extending the class or implementing the interface) are valid and can be used depending on your needs.

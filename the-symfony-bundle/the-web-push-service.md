@@ -17,22 +17,19 @@ declare(strict_types=1);
 namespace App\MessageHandler;
 
 use App\Message\SubscriptionExpired;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 use WebPush\Notification;
-use WebPush\WebPush;
+use WebPush\WebPushService;
 
-final class SendPushNotifications implements MessageHandlerInterface
+#[AsMessageHandler]
+final readonly class SendPushNotifications
 {
-    private MessageBusInterface $messageBus;
-    private SubscriptionRepository $repository;
-    private WebPush $webPush;
-
-    public function __construct(MessageBusInterface $messageBus, SubscriptionRepository $repository, WebPush $webPush)
-    {
-        $this->messageBus = $messageBus;
-        $this->repository = $repository;
-        $this->webPush = $webPush;
+    public function __construct(
+        private MessageBusInterface $messageBus,
+        private SubscriptionRepository $repository,
+        private WebPushService $webPush
+    ) {
     }
 
     public function __invoke(Notification $notification): void
@@ -40,13 +37,13 @@ final class SendPushNotifications implements MessageHandlerInterface
         // Fetch all subscriptions
         $subscriptions = $this->repository->fetchAllSubscriptions();
         foreach ($subscriptions as $subscription) {
-            //Sends the notification to the subscriber
+            // Sends the notification to the subscriber
             $report = $this->webPush->send($notification, $subscription);
 
-            //If the subscription expired
-            if ($report->subscriptionExpired()) {
-                //We dispatch a new message and expect for
-                // the subscription to be deleted
+            // If the subscription expired
+            if ($report->isSubscriptionExpired()) {
+                // We dispatch a new message and expect the
+                // subscription to be deleted
                 $this->messageBus->dispatch(
                     new SubscriptionExpired($subscription)
                 );

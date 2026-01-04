@@ -1,9 +1,9 @@
 # Installation
 
-The library can be installed using the package `spomky-labs/web-push`
+The library can be installed using the package `spomky-labs/web-push-lib`
 
 ```bash
-composer require spomky-labs/web-push
+composer require spomky-labs/web-push-lib
 ```
 
 ## VAPID Header

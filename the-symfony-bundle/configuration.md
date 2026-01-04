@@ -36,6 +36,24 @@ webpush:
 You cannot enable both `web-token` and `lcobucci/jwt` at the same time
 {% endhint %}
 
+### Custom JWS Provider
+
+If you want to use a custom JWS Provider (not `web-token` or `lcobucci/jwt`), you can configure it as follows:
+
+{% code title="config/packages/webpush.yaml" %}
+```yaml
+webpush:
+  vapid:
+    enabled: true
+    subject: 'https://my-service.com:8000'
+    custom:
+      enabled: true
+      id: 'app.my_custom_jws_provider' # The service ID of your custom provider
+```
+{% endcode %}
+
+Your custom provider must implement the `WebPush\VAPID\JWSProvider` interface.
+
 ### Token Lifetime
 
 By default, the library generates VAPID headers that are valid for 1 hour. You can change this value if needed. The parameter requires a relative string as showed [in the PHP documentation](https://www.php.net/manual/en/datetime.formats.relative.php).
