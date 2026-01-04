@@ -16,7 +16,7 @@ The [VAPID header](../common-concepts/vapid.md) authenticates your server and pr
 
 The library provides bridges for the following libraries `web-token` and `lcobucci/jwt`.
 
-Please install `web-token/jwt-signature-algorithm-ecdsa` or `lcobucci/jwt` depending on the library you want to use.
+Please install `web-token/jwt-library` or `lcobucci/jwt` depending on the library you want to use.
 
 {% hint style="info" %}
 It is possible to use any other JWS provider. This will be detailed in the future.

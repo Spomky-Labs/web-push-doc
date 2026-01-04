@@ -19,6 +19,7 @@
 * [Installation](the-library/installation.md)
 * [The Extension Manager](the-library/advanced-service.md)
 * [The Web Push Service](the-library/the-web-push-service.md)
+* [Example](the-library/example.md)
 
 ## The Symfony Bundle
 

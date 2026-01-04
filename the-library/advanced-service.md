@@ -56,7 +56,7 @@ The [VAPID header](../common-concepts/vapid.md) authenticates your server and pr
 
 The library provides bridges for the following libraries `web-token` and `lcobucci/jwt`.
 
-Please install `web-token/jwt-signature-algorithm-ecdsa` or `lcobucci/jwt` depending on the library you want to use.
+Please install `web-token/jwt-library` or `lcobucci/jwt` depending on the library you want to use.
 
 The VAPID extension requires a PSR-20 Clock implementation. You can use `symfony/clock` for example.
 
