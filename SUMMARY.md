@@ -24,6 +24,6 @@
 
 * [Installation](the-symfony-bundle/installation.md)
 * [Configuration](the-symfony-bundle/configuration.md)
-* [The Web Push Service](the-symfony-bundle/untitled.md)
+* [The Web Push Service](the-symfony-bundle/the-web-push-service.md)
 * [Doctrine](the-symfony-bundle/doctrine.md)
 * [Example](the-symfony-bundle/example.md)

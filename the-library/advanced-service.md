@@ -25,9 +25,9 @@ Please note that the TTL Extension is usually required by Push Services. To avoi
 
 ## Payload Extension
 
-The payload extension allows Notifications to have a payload. This extension requires Content Encoding objects that will be responsible of the payload encryption.
+The payload extension allows Notifications to have a payload. This extension requires Content Encoding objects that will be responsible for the payload encryption.
 
-The library provides the `AESGCM` and `AES128GCM` content encoding. These encodings are normally supported by all Push Services. The library is able to support any future encoding is deemed necessary.
+The library provides the `AESGCM` and `AES128GCM` content encoding. These encodings are normally supported by all Push Services. The library is able to support any future encoding if deemed necessary.
 
 ```php
 $clock = //PSR-20 clock
@@ -43,7 +43,7 @@ $extensionManager = ExtensionManager::create()
 
 ## VAPID Extension
 
-The [VAPID header](../common-concepts/vapid.md) authenticates your server and prevent malicious application to send notifications to your users. The header contains a signed JSON Web Token (JWS).
+The [VAPID header](../common-concepts/vapid.md) authenticates your server and prevents malicious applications from sending notifications to your users. The header contains a signed JSON Web Token (JWS).
 
 The library provides bridges for the following libraries `web-token` and `lcobucci/jwt`.
 

@@ -1,8 +1,8 @@
 # The Web Push Service
 
-The bundle provides a public Web Push service that you can inject this service into your application components.
+The bundle provides a public Web Push service that you can inject into your application components.
 
-In the following example, let's imagine that a notification is dispatched using the Symfony Messanger component and catched by an event handler. This handler will fetch all subscriptions and send the notification.
+In the following example, let's imagine that a notification is dispatched using the Symfony Messenger component and caught by an event handler. This handler will fetch all subscriptions and send the notification.
 
 {% hint style="info" %}
 The SubscriptionRepository class is totally fictive

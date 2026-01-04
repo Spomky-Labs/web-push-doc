@@ -26,7 +26,7 @@ webpush:
     enabled: true
     subject: 'https://my-service.com:8000'
     lcobucci:
-      enabled: true # We use web-token in this example
+      enabled: true # We use lcobucci/jwt in this example
       public_key: 'BB4W1qfBi7MF_Lnrc6i2oL-glAuKF4kevy9T0k2vyKV4qvuBrN3T6o9-7-NR3mKHwzDXzD3fe7XvIqIU1iADpGQ'
       private_key: 'C40jLFSa5UWxstkFvdwzT3eHONE2FIJSEsVIncSCAqU'
 ```
@@ -80,11 +80,11 @@ webpush:
 {% endcode %}
 
 {% hint style="danger" %}
-Please don't use "`none`" unless your are sending notifications in a development environment.
+Please don't use "`none`" unless you are sending notifications in a development environment.
 {% endhint %}
 
 {% hint style="warning" %}
-The value "`max`" increases the integrity protection of the messages, but there are known issues on Android and notification are not correctly delivered.
+The value "`max`" increases the integrity protection of the messages, but there are known issues on Android and notifications are not correctly delivered.
 {% endhint %}
 
 ### Caching
@@ -120,9 +120,9 @@ You can see the impact of this feature on the CI/CD Pipelines of this library. G
 
 ## Debugging
 
-If you have troubles sending notifications, you can log some messages from the libray. To do so, you just have to set the parameter logger in the configuration.
+If you have troubles sending notifications, you can log some messages from the library. To do so, you just have to set the parameter logger in the configuration.
 
-This parameter requires a PSR-3 logger. If you set `Psr\Log\LoggerInterface`, the Symfony logger will be used (PSR-3 copmpatible).
+This parameter requires a PSR-3 logger. If you set `Psr\Log\LoggerInterface`, the Symfony logger will be used (PSR-3 compatible).
 
 {% code title="config/packages/webpush.yaml" %}
 ```yaml
