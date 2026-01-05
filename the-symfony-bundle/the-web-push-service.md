@@ -36,18 +36,26 @@ final readonly class SendPushNotifications
     {
         // Fetch all subscriptions
         $subscriptions = $this->repository->fetchAllSubscriptions();
-        foreach ($subscriptions as $subscription) {
-            // Sends the notification to the subscriber
-            $report = $this->webPush->send($notification, $subscription);
 
-            // If the subscription expired
-            if ($report->isSubscriptionExpired()) {
-                // We dispatch a new message and expect the
-                // subscription to be deleted
-                $this->messageBus->dispatch(
-                    new SubscriptionExpired($subscription)
-                );
-            }
+        // Send to all subscriptions at once
+        $reports = $this->webPush->sendToMultiple($notification, $subscriptions);
+
+        // Handle expired subscriptions
+        $expired = \WebPush\StatusReport::filterExpired($reports);
+        foreach ($expired as $report) {
+            // Dispatch a message to delete expired subscription
+            $this->messageBus->dispatch(
+                new SubscriptionExpired($report->getSubscription())
+            );
+        }
+
+        // Optionally: handle retryable errors
+        $retryable = \WebPush\StatusReport::filterRetryable($reports);
+        foreach ($retryable as $report) {
+            // Queue for retry (5xx or 429 errors)
+            $this->messageBus->dispatch(
+                new RetryNotification($report->getNotification(), $report->getSubscription())
+            );
         }
     }
 }

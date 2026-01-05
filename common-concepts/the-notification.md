@@ -26,13 +26,39 @@ $notification = Notification::create()
 
 With this feature, a value in seconds is added to the notification. It suggests how long a push message is retained by the push service. A value of 0 (zero) indicates the notification is delivered immediately.
 
+### Using TTL Constants
+
+The library provides predefined constants for common TTL values:
+
+```php
+<?php
+use WebPush\Notification;
+
+// Using constants (recommended)
+$notification = Notification::create()
+    ->withTTL(Notification::TTL_ONE_HOUR);
+
+// Available constants:
+// TTL_IMMEDIATE     = 0          (deliver immediately or not at all)
+// TTL_ONE_MINUTE    = 60
+// TTL_FIVE_MINUTES  = 300
+// TTL_TEN_MINUTES   = 600
+// TTL_ONE_HOUR      = 3600
+// TTL_ONE_DAY       = 86400
+// TTL_ONE_WEEK      = 604800
+// TTL_FOUR_WEEKS    = 2419200
+```
+
+### Using Custom TTL Values
+
+You can also specify custom TTL values in seconds:
+
 ```php
 <?php
 use WebPush\Notification;
 
 $notification = Notification::create()
-    ->withTTL(3600)
-;
+    ->withTTL(3600); // 1 hour in seconds
 ```
 
 ## Topic
@@ -205,17 +231,17 @@ The Time-To-Live (TTL) determines how long notifications are retained if the use
 // Time-sensitive: expires quickly
 $urgentNotification = Notification::create()
     ->withPayload('Flash sale ends in 10 minutes!')
-    ->withTTL(600); // 10 minutes
+    ->withTTL(Notification::TTL_TEN_MINUTES);
 
 // Important but not urgent
 $normalNotification = Notification::create()
     ->withPayload('New message from John')
-    ->withTTL(86400); // 24 hours
+    ->withTTL(Notification::TTL_ONE_DAY);
 
 // Persistent notification
 $persistentNotification = Notification::create()
     ->withPayload('New feature available')
-    ->withTTL(604800); // 7 days
+    ->withTTL(Notification::TTL_ONE_WEEK);
 ```
 
 ### Use Topics Wisely
@@ -248,25 +274,25 @@ Match urgency to content to optimize battery life:
 Notification::create()
     ->highUrgency()
     ->withPayload('Your bank account requires immediate attention')
-    ->withTTL(3600);
+    ->withTTL(Notification::TTL_ONE_HOUR);
 
 // Normal urgency - standard messages
 Notification::create()
     ->normalUrgency()
     ->withPayload('New comment on your post')
-    ->withTTL(86400);
+    ->withTTL(Notification::TTL_ONE_DAY);
 
 // Low urgency - can wait
 Notification::create()
     ->lowUrgency()
     ->withPayload('Weekly summary available')
-    ->withTTL(604800);
+    ->withTTL(Notification::TTL_ONE_WEEK);
 
 // Very low urgency - promotional content
 Notification::create()
     ->veryLowUrgency()
     ->withPayload('Check out our new products')
-    ->withTTL(2592000); // 30 days
+    ->withTTL(Notification::TTL_FOUR_WEEKS);
 ```
 
 ### Craft Effective Messages
@@ -297,7 +323,7 @@ $message = Message::create('Order Shipped!')
 $notification = Notification::create()
     ->withPayload($message->toString())
     ->normalUrgency()
-    ->withTTL(86400);
+    ->withTTL(Notification::TTL_ONE_DAY);
 ```
 
 ### Optimize for Mobile
@@ -341,7 +367,7 @@ $chatMessage = Message::create($senderName)
 $notification = Notification::create()
     ->withPayload($chatMessage->toString())
     ->highUrgency()
-    ->withTTL(3600);
+    ->withTTL(Notification::TTL_ONE_HOUR);
 ```
 
 ### 2. System Alert
@@ -358,7 +384,7 @@ $alert = Message::create('System Maintenance')
 $notification = Notification::create()
     ->withPayload($alert->toString())
     ->highUrgency()
-    ->withTTL(1800);
+    ->withTTL(1800); // 30 minutes
 ```
 
 ### 3. News Update
@@ -377,7 +403,7 @@ $notification = Notification::create()
     ->withPayload($news->toString())
     ->normalUrgency()
     ->withTopic('breaking-news')
-    ->withTTL(86400);
+    ->withTTL(Notification::TTL_ONE_DAY);
 ```
 
 ### 4. Silent Background Sync
@@ -388,7 +414,7 @@ $syncNotification = Notification::create()
     ->withPayload(json_encode(['type' => 'sync', 'data' => $syncData]))
     ->async()
     ->lowUrgency()
-    ->withTTL(0); // Deliver immediately or not at all
+    ->withTTL(Notification::TTL_IMMEDIATE); // Deliver immediately or not at all
 ```
 
 ## Handling Delivery Failures
@@ -405,7 +431,7 @@ use WebPush\WebPushService;
 try {
     $notification = Notification::create()
         ->withPayload($message->toString())
-        ->withTTL(86400);
+        ->withTTL(Notification::TTL_ONE_DAY);
 
     $report = $webPush->send($notification, $subscription);
 

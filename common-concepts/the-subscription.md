@@ -211,6 +211,198 @@ assert(in_array('auth', array_keys($testSubscription->getKeys())));
 assert(in_array('p256dh', array_keys($testSubscription->getKeys())));
 ```
 
+## Performance Optimization
+
+### Caching Subscriptions
+
+When sending notifications to multiple users or sending frequently, implement caching strategies to improve performance:
+
+#### Application-Level Caching
+
+Use your application's cache layer (Redis, Memcached, etc.) to cache subscription lookups:
+
+```php
+use Psr\Cache\CacheItemPoolInterface;
+use WebPush\Subscription;
+
+class CachedSubscriptionRepository
+{
+    public function __construct(
+        private SubscriptionRepository $repository,
+        private CacheItemPoolInterface $cache
+    ) {}
+
+    public function findByUserId(string $userId): ?Subscription
+    {
+        $cacheKey = "subscription.user.{$userId}";
+        $item = $this->cache->getItem($cacheKey);
+
+        if ($item->isHit()) {
+            $json = $item->get();
+            return Subscription::createFromString($json);
+        }
+
+        $subscription = $this->repository->findByUserId($userId);
+        if ($subscription !== null) {
+            $item->set($subscription->toString());
+            $item->expiresAfter(3600); // Cache for 1 hour
+            $this->cache->save($item);
+        }
+
+        return $subscription;
+    }
+
+    public function invalidate(string $userId): void
+    {
+        $cacheKey = "subscription.user.{$userId}";
+        $this->cache->deleteItem($cacheKey);
+    }
+}
+```
+
+#### Doctrine Query Result Cache
+
+If using Doctrine, leverage query result caching:
+
+```php
+use Doctrine\ORM\EntityRepository;
+
+class UserRepository extends EntityRepository
+{
+    public function findWithSubscription(int $userId): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.subscription', 's')
+            ->addSelect('s')
+            ->where('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->useResultCache(true, 3600, "user_subscription_{$userId}")
+            ->getOneOrNullResult();
+    }
+}
+```
+
+#### Batch Loading
+
+When sending to multiple users, load subscriptions in batches to reduce database queries:
+
+```php
+use WebPush\Notification;
+use WebPush\WebPushService;
+
+class BulkNotificationSender
+{
+    public function __construct(
+        private WebPushService $webPush,
+        private EntityManagerInterface $em
+    ) {}
+
+    public function sendToUsers(Notification $notification, array $userIds): array
+    {
+        // Load all subscriptions in one query
+        $subscriptions = $this->em->createQueryBuilder()
+            ->select('s')
+            ->from(UserSubscription::class, 's')
+            ->where('s.userId IN (:userIds)')
+            ->setParameter('userIds', $userIds)
+            ->getQuery()
+            ->getResult();
+
+        // Send to all subscriptions
+        return $this->webPush->sendToMultiple($notification, $subscriptions);
+    }
+}
+```
+
+#### Cache Invalidation Strategy
+
+Always invalidate the cache when subscriptions change:
+
+```php
+class SubscriptionService
+{
+    public function __construct(
+        private SubscriptionRepository $repository,
+        private CacheItemPoolInterface $cache
+    ) {}
+
+    public function updateSubscription(string $userId, string $subscriptionJson): void
+    {
+        $subscription = Subscription::createFromString($subscriptionJson);
+        $this->repository->save($userId, $subscription);
+
+        // Invalidate cache
+        $this->cache->deleteItem("subscription.user.{$userId}");
+    }
+
+    public function removeExpiredSubscription(string $userId): void
+    {
+        $this->repository->remove($userId);
+
+        // Invalidate cache
+        $this->cache->deleteItem("subscription.user.{$userId}");
+    }
+}
+```
+
+### Best Practices for High-Volume Sending
+
+When sending to thousands of users:
+
+1. **Use Background Jobs**: Queue notifications for asynchronous processing
+2. **Batch Subscriptions**: Load subscriptions in batches of 100-1000
+3. **Cache Aggressively**: Cache subscription lookups for 1-4 hours
+4. **Monitor Cache Hit Rate**: Aim for >80% hit rate
+5. **Clean Up Expired**: Remove expired subscriptions immediately to reduce database size
+
+```php
+use Symfony\Component\Messenger\MessageBusInterface;
+
+class NotificationDispatcher
+{
+    public function __construct(
+        private MessageBusInterface $bus,
+        private CacheItemPoolInterface $cache
+    ) {}
+
+    public function sendToAllUsers(Notification $notification): void
+    {
+        // Get cached user count
+        $userCount = $this->getCachedUserCount();
+        $batchSize = 1000;
+
+        // Dispatch batch jobs
+        for ($offset = 0; $offset < $userCount; $offset += $batchSize) {
+            $this->bus->dispatch(new SendNotificationBatch(
+                $notification,
+                $offset,
+                $batchSize
+            ));
+        }
+    }
+
+    private function getCachedUserCount(): int
+    {
+        $item = $this->cache->getItem('user.count');
+        if ($item->isHit()) {
+            return $item->get();
+        }
+
+        $count = $this->countUsers();
+        $item->set($count);
+        $item->expiresAfter(300); // Cache for 5 minutes
+        $this->cache->save($item);
+
+        return $count;
+    }
+}
+```
+
+{% hint style="info" %}
+**Note**: The web-push library itself does not provide caching functionality, as this is the responsibility of your application layer. The examples above show recommended patterns for implementing caching in your application.
+{% endhint %}
+
 ## Common Issues
 
 ### Subscription Not Received

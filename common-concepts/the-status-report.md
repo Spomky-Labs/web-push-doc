@@ -33,6 +33,60 @@ if(!$statusReport->isSuccess()) {
 }
 ```
 
+## Helper Methods
+
+The StatusReport provides several helper methods to simplify error handling:
+
+```php
+// Get the HTTP status code
+$code = $statusReport->getStatusCode(); // 200, 404, 500, etc.
+
+// Check error types
+$statusReport->isSuccess();           // true for 2xx codes
+$statusReport->isClientError();       // true for 4xx codes
+$statusReport->isServerError();       // true for 5xx codes
+$statusReport->isRateLimited();       // true for 429
+$statusReport->isSubscriptionExpired(); // true for 404 or 410
+$statusReport->isTransportError();    // true if no HTTP response (network error)
+
+// Check if the error is retryable
+$statusReport->isRetryable();         // true for 5xx or 429
+
+// Get a human-readable error message
+$message = $statusReport->getErrorMessage();
+// Returns: "Rate limit exceeded", "Subscription expired", etc.
+```
+
+### Simplified Error Handling
+
+```php
+$report = $webPush->send($notification, $subscription);
+
+if ($report->isSuccess()) {
+    // Notification delivered successfully
+    return;
+}
+
+// Handle subscription expiration
+if ($report->isSubscriptionExpired()) {
+    $repository->remove($subscription);
+    return;
+}
+
+// Log error with readable message
+$logger->error('Failed to send notification', [
+    'endpoint' => $subscription->getEndpoint(),
+    'error' => $report->getErrorMessage(),
+    'status_code' => $report->getStatusCode()
+]);
+
+// Retry if the error is retryable
+if ($report->isRetryable()) {
+    // Queue for retry with exponential backoff
+    $queue->retry($notification, $subscription);
+}
+```
+
 ## Understanding Status Codes
 
 The status code follows HTTP standards and indicates the result of the push notification delivery.
@@ -295,42 +349,107 @@ function sendWithRetry(
 
 ## Batch Processing with Error Handling
 
-When sending to multiple subscriptions, handle errors for each one:
+### Using sendToMultiple()
+
+The recommended way to send notifications to multiple subscriptions is using the `sendToMultiple()` method:
+
+```php
+use WebPush\Notification;
+use WebPush\WebPush;
+use WebPush\StatusReport;
+
+$notification = Notification::create()
+    ->withPayload('{"title":"Update","body":"New content available"}')
+    ->withTTL(Notification::TTL_ONE_HOUR);
+
+// Send to multiple subscriptions
+$reports = $webPush->sendToMultiple($notification, $subscriptions);
+
+// Process results
+foreach ($reports as $report) {
+    if ($report->isSubscriptionExpired()) {
+        $repository->remove($report->getSubscription());
+    } elseif (!$report->isSuccess()) {
+        $logger->error('Failed to send', [
+            'endpoint' => $report->getSubscription()->getEndpoint(),
+            'error' => $report->getErrorMessage()
+        ]);
+    }
+}
+```
+
+{% hint style="info" %}
+The `sendToMultiple()` method does not throw exceptions for individual failures. Instead, it attempts to send to all subscriptions and returns a StatusReport for each one, allowing you to inspect successes and failures.
+{% endhint %}
+
+### Filtering Reports
+
+Use the static helper methods to filter and analyze batch results:
+
+```php
+// Filter successful deliveries
+$successful = StatusReport::filterSuccessful($reports);
+
+// Filter failed deliveries
+$failed = StatusReport::filterFailed($reports);
+
+// Filter expired subscriptions
+$expired = StatusReport::filterExpired($reports);
+
+// Filter retryable errors
+$retryable = StatusReport::filterRetryable($reports);
+
+// Get statistics
+$stats = StatusReport::getStatistics($reports);
+// Returns: ['total' => 100, 'successful' => 85, 'failed' => 15, 'expired' => 5, 'retryable' => 3]
+```
+
+### Complete Batch Processing Example
 
 ```php
 use WebPush\Notification;
 use WebPush\WebPushService;
+use WebPush\StatusReport;
 
 function sendToMultipleSubscriptions(
     WebPushService $webPush,
     Notification $notification,
     array $subscriptions,
-    SubscriptionRepository $repository
+    SubscriptionRepository $repository,
+    LoggerInterface $logger
 ): array {
-    $results = [
-        'success' => 0,
-        'failed' => 0,
-        'expired' => 0,
-    ];
+    // Send to all subscriptions
+    $reports = $webPush->sendToMultiple($notification, $subscriptions);
 
-    foreach ($subscriptions as $subscription) {
-        try {
-            $report = $webPush->send($notification, $subscription);
+    // Get statistics
+    $stats = StatusReport::getStatistics($reports);
+    $logger->info('Batch send completed', $stats);
 
-            if ($report->isSuccess()) {
-                $results['success']++;
-            } elseif ($report->isSubscriptionExpired()) {
-                $repository->remove($subscription);
-                $results['expired']++;
-            } else {
-                $results['failed']++;
-            }
-        } catch (\Throwable $e) {
-            $results['failed']++;
+    // Remove expired subscriptions
+    $expired = StatusReport::filterExpired($reports);
+    foreach ($expired as $report) {
+        $repository->remove($report->getSubscription());
+    }
+
+    // Queue retryable errors
+    $retryable = StatusReport::filterRetryable($reports);
+    foreach ($retryable as $report) {
+        $queue->retry($report->getNotification(), $report->getSubscription());
+    }
+
+    // Log permanent failures
+    $failed = StatusReport::filterFailed($reports);
+    foreach ($failed as $report) {
+        if (!$report->isRetryable() && !$report->isSubscriptionExpired()) {
+            $logger->error('Permanent failure', [
+                'endpoint' => $report->getSubscription()->getEndpoint(),
+                'error' => $report->getErrorMessage(),
+                'code' => $report->getStatusCode()
+            ]);
         }
     }
 
-    return $results;
+    return $stats;
 }
 ```
 
