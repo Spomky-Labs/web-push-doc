@@ -13,6 +13,7 @@
 * [The Notification](common-concepts/the-notification.md)
 * [The Status Report](common-concepts/the-status-report.md)
 * [VAPID](common-concepts/vapid.md)
+* [Exceptions](common-concepts/exceptions.md)
 
 ## The Library
 

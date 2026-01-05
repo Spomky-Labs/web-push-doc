@@ -511,8 +511,98 @@ foreach ($subscriptions as $subscription) {
 }
 ```
 
+## Validation Exceptions
+
+The library throws specific exceptions when notification properties are invalid. Each exception provides direct access to the problematic value for better debugging.
+
+### Available Exceptions
+
+```php
+use WebPush\Exception\InvalidTopicException;
+use WebPush\Exception\InvalidTTLException;
+use WebPush\Exception\InvalidUrgencyException;
+```
+
+### InvalidTopicException
+
+Thrown when topic validation fails. Access the invalid topic via `$e->topic`:
+
+```php
+try {
+    $notification = Notification::create()
+        ->withTopic('invalid@topic'); // @ not allowed
+} catch (InvalidTopicException $e) {
+    echo "Invalid topic: {$e->topic}";
+    // Output: Invalid topic: invalid@topic
+}
+```
+
+**Common causes:**
+- Topic exceeds 32 characters
+- Topic contains invalid characters (only `a-z`, `A-Z`, `0-9`, `-`, `.`, `_`, `~` allowed)
+- Empty topic
+
+### InvalidTTLException
+
+Thrown when TTL is negative. Access the invalid TTL via `$e->ttl`:
+
+```php
+try {
+    $notification = Notification::create()
+        ->withTTL(-1); // Must be >= 0
+} catch (InvalidTTLException $e) {
+    echo "Invalid TTL: {$e->ttl}";
+    // Output: Invalid TTL: -1
+}
+```
+
+### InvalidUrgencyException
+
+Thrown when urgency is not a valid value. Access the invalid urgency via `$e->urgency`:
+
+```php
+try {
+    $notification = Notification::create()
+        ->withUrgency('critical'); // Not a valid urgency
+} catch (InvalidUrgencyException $e) {
+    echo "Invalid urgency: {$e->urgency}";
+    // Output: Invalid urgency: critical
+}
+```
+
+**Valid urgency values:** `very-low`, `low`, `normal`, `high`
+
+### Handling Multiple Validations
+
+Catch specific exceptions for targeted error handling:
+
+```php
+use WebPush\Exception\InvalidTopicException;
+use WebPush\Exception\InvalidTTLException;
+use WebPush\Exception\ValidationException;
+
+try {
+    $notification = Notification::create()
+        ->withTopic($userTopic)
+        ->withTTL($userTTL)
+        ->withPayload($message);
+
+} catch (InvalidTopicException $e) {
+    return "Topic '{$e->topic}' is invalid: use only letters, numbers, and - . _ ~";
+} catch (InvalidTTLException $e) {
+    return "TTL must be positive (got {$e->ttl})";
+} catch (ValidationException $e) {
+    return "Validation error: " . $e->getMessage();
+}
+```
+
+{% hint style="info" %}
+See the [Exceptions](exceptions.md) page for complete documentation on error handling strategies and best practices.
+{% endhint %}
+
 ## Next Steps
 
 - Understand [Status Reports](the-status-report.md) to handle delivery results
 - Learn about [Subscriptions](the-subscription.md) management
 - Set up [VAPID](vapid.md) for secure authentication
+- Read about [Exception Handling](exceptions.md) for validation errors

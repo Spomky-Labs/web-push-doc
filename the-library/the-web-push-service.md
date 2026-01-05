@@ -107,3 +107,44 @@ try {
     $logger->error('Transport error', ['message' => $e->getMessage()]);
 }
 ```
+
+## Validation Exceptions
+
+When creating notifications with invalid properties, the library throws specific exceptions. Each exception exposes the problematic value as a `public readonly` property for easy debugging:
+
+```php
+<?php
+
+use WebPush\Exception\InvalidTopicException;
+use WebPush\Exception\InvalidTTLException;
+use WebPush\Exception\InvalidUrgencyException;
+use WebPush\Exception\ValidationException;
+use WebPush\Notification;
+
+// Example: Validating user input
+function createNotificationFromInput(array $input): Notification
+{
+    try {
+        return Notification::create()
+            ->withTopic($input['topic'])
+            ->withTTL((int) $input['ttl'])
+            ->withUrgency($input['urgency'])
+            ->withPayload($input['message']);
+
+    } catch (InvalidTopicException $e) {
+        throw new \InvalidArgumentException(
+            "Invalid topic '{$e->topic}': must be max 32 chars with URL-safe characters only"
+        );
+    } catch (InvalidTTLException $e) {
+        throw new \InvalidArgumentException(
+            "Invalid TTL '{$e->ttl}': must be a positive integer"
+        );
+    } catch (InvalidUrgencyException $e) {
+        throw new \InvalidArgumentException(
+            "Invalid urgency '{$e->urgency}': must be 'very-low', 'low', 'normal', or 'high'"
+        );
+    }
+}
+```
+
+See the [Exceptions](../common-concepts/exceptions.md) documentation for complete details on error handling strategies.

@@ -61,3 +61,62 @@ final readonly class SendPushNotifications
 }
 ```
 {% endcode %}
+
+## Validation Exceptions
+
+When creating notifications from user input or configuration, validation exceptions provide clear error messages with contextual properties:
+
+{% code title="src/Service/NotificationFactory.php" %}
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Service;
+
+use Psr\Log\LoggerInterface;
+use WebPush\Exception\InvalidTopicException;
+use WebPush\Exception\InvalidTTLException;
+use WebPush\Exception\ValidationException;
+use WebPush\Notification;
+
+final readonly class NotificationFactory
+{
+    public function __construct(
+        private LoggerInterface $logger
+    ) {}
+
+    public function createFromRequest(array $data): ?Notification
+    {
+        try {
+            return Notification::create()
+                ->withTopic($data['topic'] ?? 'default')
+                ->withTTL($data['ttl'] ?? Notification::TTL_ONE_HOUR)
+                ->withPayload($data['message'] ?? '');
+
+        } catch (InvalidTopicException $e) {
+            $this->logger->error('Invalid topic in request', [
+                'topic' => $e->topic,
+                'error' => $e->getMessage()
+            ]);
+            return null;
+
+        } catch (InvalidTTLException $e) {
+            $this->logger->error('Invalid TTL in request', [
+                'ttl' => $e->ttl,
+                'error' => $e->getMessage()
+            ]);
+            return null;
+
+        } catch (ValidationException $e) {
+            $this->logger->error('Validation error', [
+                'error' => $e->getMessage()
+            ]);
+            return null;
+        }
+    }
+}
+```
+{% endcode %}
+
+See the [Exceptions](../common-concepts/exceptions.md) documentation for complete error handling strategies.
