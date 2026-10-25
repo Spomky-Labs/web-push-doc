@@ -1,0 +1,19 @@
+# Installation
+
+The library can be installed using the package `spomky-labs/web-push-lib`
+
+```bash
+composer require spomky-labs/web-push-lib
+```
+
+## VAPID header
+
+The [VAPID header](../common-concepts/vapid.md) authenticates your server and prevents malicious applications from sending notifications to your users. The header contains a signed JSON Web Token (JWS).
+
+The library provides bridges for the following libraries `web-token` and `lcobucci/jwt`.
+
+Please install `web-token/jwt-library` or `lcobucci/jwt` depending on the library you want to use.
+
+!!! info
+
+    It is possible to use any other JWS provider. This will be detailed in the future.
