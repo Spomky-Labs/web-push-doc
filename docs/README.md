@@ -2,7 +2,7 @@
 description: Web Notifications made easy
 ---
 
-# Web Push
+# Web Push Framework
 
 ![Illustration by Freepik Stories (https://stories.freepik.com/communication)](assets/images/messages-rafiki.svg)
 
