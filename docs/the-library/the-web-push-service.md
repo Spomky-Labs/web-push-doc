@@ -27,9 +27,9 @@ $notification = Notification::create()
 $statusReport = $service->send($notification, $subscription);
 ```
 
-{% hint style="info" %}
-In this example, we load the Subscription object from a string, but you usually retrieve the Subscription objects from a database or a dedicated storage.
-{% endhint %}
+!!! info
+
+    In this example, we load the Subscription object from a string, but you usually retrieve the Subscription objects from a database or a dedicated storage.
 
 ## Sending to Multiple Subscriptions
 
@@ -71,9 +71,9 @@ foreach ($retryable as $report) {
 }
 ```
 
-{% hint style="info" %}
-Unlike `send()`, the `sendToMultiple()` method does not throw exceptions for individual failures. It attempts to send to all subscriptions and returns a StatusReport for each one, allowing you to inspect both successes and failures.
-{% endhint %}
+!!! info
+
+    Unlike `send()`, the `sendToMultiple()` method does not throw exceptions for individual failures. It attempts to send to all subscriptions and returns a StatusReport for each one, allowing you to inspect both successes and failures.
 
 ## Error Handling
 

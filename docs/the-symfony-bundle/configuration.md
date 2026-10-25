@@ -4,8 +4,7 @@
 
 To enable the VAPID header feature, you must install a JWS Provider (see [installation](installation.md)) and configure it with your public and private key (see [this page](../common-concepts/vapid.md) to create these keys)
 
-{% code title="config/packages/webpush.yaml" %}
-```yaml
+```yaml title="config/packages/webpush.yaml"
 webpush:
   vapid:
     enabled: true # Enable the feature
@@ -15,12 +14,10 @@ webpush:
       public_key: 'BB4W1qfBi7MF_Lnrc6i2oL-glAuKF4kevy9T0k2vyKV4qvuBrN3T6o9-7-NR3mKHwzDXzD3fe7XvIqIU1iADpGQ'
       private_key: 'C40jLFSa5UWxstkFvdwzT3eHONE2FIJSEsVIncSCAqU'
 ```
-{% endcode %}
 
 When using `lcobucci/jwt`, the configuration is very similar.
 
-{% code title="config/packages/webpush.yaml" %}
-```yaml
+```yaml title="config/packages/webpush.yaml"
 webpush:
   vapid:
     enabled: true
@@ -30,18 +27,16 @@ webpush:
       public_key: 'BB4W1qfBi7MF_Lnrc6i2oL-glAuKF4kevy9T0k2vyKV4qvuBrN3T6o9-7-NR3mKHwzDXzD3fe7XvIqIU1iADpGQ'
       private_key: 'C40jLFSa5UWxstkFvdwzT3eHONE2FIJSEsVIncSCAqU'
 ```
-{% endcode %}
 
-{% hint style="danger" %}
-You cannot enable both `web-token` and `lcobucci/jwt` at the same time
-{% endhint %}
+!!! danger
+
+    You cannot enable both `web-token` and `lcobucci/jwt` at the same time
 
 ### Custom JWS Provider
 
 If you want to use a custom JWS Provider (not `web-token` or `lcobucci/jwt`), you can configure it as follows:
 
-{% code title="config/packages/webpush.yaml" %}
-```yaml
+```yaml title="config/packages/webpush.yaml"
 webpush:
   vapid:
     enabled: true
@@ -50,7 +45,6 @@ webpush:
       enabled: true
       id: 'app.my_custom_jws_provider' # The service ID of your custom provider
 ```
-{% endcode %}
 
 Your custom provider must implement the `WebPush\VAPID\JWSProvider` interface.
 
@@ -58,18 +52,16 @@ Your custom provider must implement the `WebPush\VAPID\JWSProvider` interface.
 
 By default, the library generates VAPID headers that are valid for 1 hour. You can change this value if needed. The parameter requires a relative string as showed [in the PHP documentation](https://www.php.net/manual/en/datetime.formats.relative.php).
 
-{% code title="config/packages/webpush.yaml" %}
-```yaml
+```yaml title="config/packages/webpush.yaml"
 webpush:
   vapid:
     enabled: true
     token_lifetime: 'now +2 hours'
 ```
-{% endcode %}
 
-{% hint style="warning" %}
-The token lifetime should not be greater than 24 hours. Most of the Web Push Services will reject such long-life tokens
-{% endhint %}
+!!! warning
+
+    The token lifetime should not be greater than 24 hours. Most of the Web Push Services will reject such long-life tokens
 
 ## Payload Support
 
@@ -86,8 +78,7 @@ Acceptable values for this parameter are:
 * `max`: see warning below
 * an integer: should be between `0` and `4078` or `3993` for `AESGCM` and `AES128GCM` respectively
 
-{% code title="config/packages/webpush.yaml" %}
-```yaml
+```yaml title="config/packages/webpush.yaml"
 webpush:
   payload:
     aesgcm:
@@ -95,15 +86,14 @@ webpush:
     aes128gcm:
       padding: 'none' # "none", "recommended", "max" or an integer (0 to 3993)
 ```
-{% endcode %}
 
-{% hint style="danger" %}
-Please don't use "`none`" unless you are sending notifications in a development environment.
-{% endhint %}
+!!! danger
 
-{% hint style="warning" %}
-The value "`max`" increases the integrity protection of the messages, but there are known issues on Android and notifications are not correctly delivered.
-{% endhint %}
+    Please don't use "`none`" unless you are sending notifications in a development environment.
+
+!!! warning
+
+    The value "`max`" increases the integrity protection of the messages, but there are known issues on Android and notifications are not correctly delivered.
 
 ### Caching
 
@@ -113,14 +103,13 @@ The creation of this random key takes approximately 150ms and can impact your se
 
 To reduce the impact on your server, you can enable the caching feature and reuse the encryption key for a defined period of time.
 
-{% hint style="danger" %}
-As encryption keys will be stored in the cache, you should make sure the cache is not shared otherwise you may have a security issue.
-{% endhint %}
+!!! danger
+
+    As encryption keys will be stored in the cache, you should make sure the cache is not shared otherwise you may have a security issue.
 
 This parameter requires a PSR-6 Cache compatible service. If you set `Psr\Log\CacheItemPoolInterface`, the default Symfony cache will be used.
 
-{% code title="config/packages/webpush.yaml" %}
-```yaml
+```yaml title="config/packages/webpush.yaml"
 webpush:
   payload:
     aesgcm:
@@ -130,11 +119,10 @@ webpush:
       cache: Psr\Cache\CacheItemPoolInterface
       cache_lifetime: '+1 hour' #Default: now +30min
 ```
-{% endcode %}
 
-{% hint style="success" %}
-You can see the impact of this feature on the CI/CD Pipelines of this library. Go the [https://github.com/Spomky-Labs/web-push/actions?query=workflow%3ABenchmark](https://github.com/Spomky-Labs/web-push/actions?query=workflow%3ABenchmark) and find a summary table displayed at the end of each test.
-{% endhint %}
+!!! success
+
+    You can see the impact of this feature on the CI/CD Pipelines of this library. Go the [https://github.com/Spomky-Labs/web-push/actions?query=workflow%3ABenchmark](https://github.com/Spomky-Labs/web-push/actions?query=workflow%3ABenchmark) and find a summary table displayed at the end of each test.
 
 ## Debugging
 
@@ -142,9 +130,7 @@ If you have troubles sending notifications, you can log some messages from the l
 
 This parameter requires a PSR-3 logger. If you set `Psr\Log\LoggerInterface`, the Symfony logger will be used (PSR-3 compatible).
 
-{% code title="config/packages/webpush.yaml" %}
-```yaml
+```yaml title="config/packages/webpush.yaml"
 webpush:
   logger: Psr\Log\LoggerInterface
 ```
-{% endcode %}

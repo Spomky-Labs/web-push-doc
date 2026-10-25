@@ -19,9 +19,9 @@ $extensionManager = ExtensionManager::create()
 ;
 ```
 
-{% hint style="info" %}
-Please note that the TTL Extension is usually required by Push Services. To avoid any trouble, please use all extensions.
-{% endhint %}
+!!! info
+
+    Please note that the TTL Extension is usually required by Push Services. To avoid any trouble, please use all extensions.
 
 ## Payload Extension
 
@@ -86,10 +86,10 @@ $extensionManager = ExtensionManager::create()
 ;
 ```
 
-{% hint style="danger" %}
-The public key used with your server shall be the same as the one in your Javascript application.
-{% endhint %}
+!!! danger
 
-{% hint style="warning" %}
-If this public/private key changes, subscriptions will become invalid.
-{% endhint %}
+    The public key used with your server shall be the same as the one in your Javascript application.
+
+!!! warning
+
+    If this public/private key changes, subscriptions will become invalid.

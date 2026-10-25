@@ -168,9 +168,9 @@ if ($report->getStatusCode() === 410) {
 }
 ```
 
-{% hint style="info" %}
-One of the failure reasons could be the expiration of the subscription (too old or cancelled by the end-user). This can be checked with the method `isSubscriptionExpired()`. In this case, you should simply delete the subscription as it is not possible to send notifications anymore.
-{% endhint %}
+!!! info
+
+    One of the failure reasons could be the expiration of the subscription (too old or cancelled by the end-user). This can be checked with the method `isSubscriptionExpired()`. In this case, you should simply delete the subscription as it is not possible to send notifications anymore.
 
 ```php
 <?php
@@ -378,9 +378,9 @@ foreach ($reports as $report) {
 }
 ```
 
-{% hint style="info" %}
-The `sendToMultiple()` method does not throw exceptions for individual failures. Instead, it attempts to send to all subscriptions and returns a StatusReport for each one, allowing you to inspect successes and failures.
-{% endhint %}
+!!! info
+
+    The `sendToMultiple()` method does not throw exceptions for individual failures. Instead, it attempts to send to all subscriptions and returns a StatusReport for each one, allowing you to inspect successes and failures.
 
 ### Filtering Reports
 

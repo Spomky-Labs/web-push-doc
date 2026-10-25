@@ -14,6 +14,6 @@ The library provides bridges for the following libraries `web-token` and `lcobuc
 
 Please install `web-token/jwt-library` or `lcobucci/jwt` depending on the library you want to use.
 
-{% hint style="info" %}
-It is possible to use any other JWS provider. This will be detailed in the future.
-{% endhint %}
+!!! info
+
+    It is possible to use any other JWS provider. This will be detailed in the future.

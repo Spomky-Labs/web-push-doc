@@ -13,8 +13,7 @@ To persist subscriptions in your database, you need to create a Doctrine entity.
 
 In this example, we create a Subscription entity that extends the base `WebPush\Subscription` class. We also associate one or more Subscription entities to a specific user (Many-To-One relationship).
 
-{% code title="src/Entity/Subscription.php" %}
-```php
+```php title="src/Entity/Subscription.php"
 <?php
 
 declare(strict_types=1);
@@ -69,18 +68,16 @@ class Subscription extends WebPushSubscription
     }
 }
 ```
-{% endcode %}
 
-{% hint style="info" %}
-In this example, we assume you already have a valid User entity class.
-{% endhint %}
+!!! info
+
+    In this example, we assume you already have a valid User entity class.
 
 ### The `User` Entity
 
 Now, to have a bidirectional relationship between this class and the User entity class, we will add this relationship to the User class.
 
-{% code title="src/Entity/User.php" %}
-```php
+```php title="src/Entity/User.php"
 <?php
 
 declare(strict_types=1);
@@ -134,13 +131,11 @@ class User //Usual interface here
     }
 }
 ```
-{% endcode %}
 
 ## Sending Notifications To A User
 
 Now that your entities are set, you can register Subcriptions and assign them to your users. To send a Notification to a specific user, you just have to get all subscriptions using `$user->getSubscriptions()`.
 
-{% code title="" %}
 ```php
 $subscriptions = $user->getSubscriptions();
 foreach ($subscriptions as $subscription) {
@@ -150,7 +145,6 @@ foreach ($subscriptions as $subscription) {
     }
 }
 ```
-{% endcode %}
 
 ### Approach 2: Implementing the Interface Directly
 

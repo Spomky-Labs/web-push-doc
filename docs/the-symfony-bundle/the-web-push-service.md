@@ -4,12 +4,11 @@ The bundle provides a public Web Push service that you can inject into your appl
 
 In the following example, let's imagine that a notification is dispatched using the Symfony Messenger component and caught by an event handler. This handler will fetch all subscriptions and send the notification.
 
-{% hint style="info" %}
-The SubscriptionRepository class is totally fictive
-{% endhint %}
+!!! info
 
-{% code title="src/MessageHandler/SendNotification.php" %}
-```php
+    The SubscriptionRepository class is totally fictive
+
+```php title="src/MessageHandler/SendNotification.php"
 <?php
 
 declare(strict_types=1);
@@ -60,14 +59,12 @@ final readonly class SendPushNotifications
     }
 }
 ```
-{% endcode %}
 
 ## Validation Exceptions
 
 When creating notifications from user input or configuration, validation exceptions provide clear error messages with contextual properties:
 
-{% code title="src/Service/NotificationFactory.php" %}
-```php
+```php title="src/Service/NotificationFactory.php"
 <?php
 
 declare(strict_types=1);
@@ -117,6 +114,5 @@ final readonly class NotificationFactory
     }
 }
 ```
-{% endcode %}
 
 See the [Exceptions](../common-concepts/exceptions.md) documentation for complete error handling strategies.

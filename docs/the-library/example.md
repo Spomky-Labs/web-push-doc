@@ -27,8 +27,7 @@ openssl ec -in private_key.pem -outform DER|tail -c +8|head -c 32|base64|tr -d '
 
 ### Step 3: Create the Web Push Service
 
-{% code title="src/WebPushServiceFactory.php" %}
-```php
+```php title="src/WebPushServiceFactory.php"
 <?php
 
 declare(strict_types=1);
@@ -101,12 +100,10 @@ class WebPushServiceFactory
     }
 }
 ```
-{% endcode %}
 
 ### Step 4: Create a Subscription Manager
 
-{% code title="src/SubscriptionManager.php" %}
-```php
+```php title="src/SubscriptionManager.php"
 <?php
 
 declare(strict_types=1);
@@ -191,12 +188,10 @@ class SubscriptionManager
     }
 }
 ```
-{% endcode %}
 
 ### Step 5: Handle Subscription from Browser
 
-{% code title="public/subscribe.php" %}
-```php
+```php title="public/subscribe.php"
 <?php
 
 declare(strict_types=1);
@@ -228,12 +223,10 @@ $manager->add($subscription, $userId);
 http_response_code(201);
 echo json_encode(['message' => 'Subscription saved']);
 ```
-{% endcode %}
 
 ### Step 6: Send Notifications
 
-{% code title="src/NotificationSender.php" %}
-```php
+```php title="src/NotificationSender.php"
 <?php
 
 declare(strict_types=1);
@@ -339,12 +332,10 @@ class NotificationSender
     }
 }
 ```
-{% endcode %}
 
 ### Step 7: Usage Example
 
-{% code title="examples/send-notification.php" %}
-```php
+```php title="examples/send-notification.php"
 <?php
 
 declare(strict_types=1);
@@ -387,12 +378,10 @@ $notificationSender->sendToAll(
 
 echo "Notifications sent!\n";
 ```
-{% endcode %}
 
 ### Step 8: Client-side JavaScript
 
-{% code title="public/js/push.js" %}
-```javascript
+```javascript title="public/js/push.js"
 // Configuration
 const API_BASE_URL = '/api';
 
@@ -523,10 +512,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 ```
-{% endcode %}
 
-{% code title="public/service-worker.js" %}
-```javascript
+```javascript title="public/service-worker.js"
 self.addEventListener('push', function(event) {
     if (!event.data) {
         return;
@@ -550,12 +537,10 @@ self.addEventListener('notificationclick', function(event) {
     );
 });
 ```
-{% endcode %}
 
 ### Step 9: Simple HTML Page
 
-{% code title="public/index.html" %}
-```html
+```html title="public/index.html"
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -575,7 +560,6 @@ self.addEventListener('notificationclick', function(event) {
 </body>
 </html>
 ```
-{% endcode %}
 
 ## Running the Example
 

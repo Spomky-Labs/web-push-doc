@@ -91,9 +91,9 @@ To avoid consuming resources to receive trivial messages, it is helpful if an ap
 | normal   | On neither power nor Wi-Fi | Chat or Calendar Message                    |
 | high     | Low battery                | Incoming phone call or time-sensitive alert |
 
-{% hint style="warning" %}
-Be careful with the `very-low` urgency: it is not recognized by all Web-Push services
-{% endhint %}
+!!! warning
+
+    Be careful with the `very-low` urgency: it is not recognized by all Web-Push services
 
 ```php
 <?php
@@ -121,9 +121,9 @@ $notification = Notification::create()
 ;
 ```
 
-{% hint style="warning" %}
-The `async` mode is not recognized by all Web Push services. In case of failure, you should try sending `sync` notifications.
-{% endhint %}
+!!! warning
+
+    The `async` mode is not recognized by all Web Push services. In case of failure, you should try sending `sync` notifications.
 
 ## JSON Messages
 
@@ -596,9 +596,9 @@ try {
 }
 ```
 
-{% hint style="info" %}
-See the [Exceptions](exceptions.md) page for complete documentation on error handling strategies and best practices.
-{% endhint %}
+!!! info
+
+    See the [Exceptions](exceptions.md) page for complete documentation on error handling strategies and best practices.
 
 ## Next Steps
 

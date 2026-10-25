@@ -4,7 +4,7 @@ description: Web Notifications made easy
 
 # Web-Push
 
-![Illustration by Freepik Stories (https://stories.freepik.com/communication)](.gitbook/assets/Messages-rafiki.svg)
+![Illustration by Freepik Stories (https://stories.freepik.com/communication)](assets/images/messages-rafiki.svg)
 
 WebPush can be used to send notifications to endpoints that deliver Web Push notifications as described in the following specifications
 

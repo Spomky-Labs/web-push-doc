@@ -8,8 +8,7 @@ This page provides a complete example of implementing Web Push notifications in 
 
 First, configure the bundle with VAPID authentication:
 
-{% code title="config/packages/webpush.yaml" %}
-```yaml
+```yaml title="config/packages/webpush.yaml"
 webpush:
   vapid:
     enabled: true
@@ -25,22 +24,18 @@ webpush:
       padding: 'recommended'
   logger: 'monolog.logger'
 ```
-{% endcode %}
 
-{% code title=".env" %}
-```bash
+```bash title=".env"
 # Generate keys with: openssl ecparam -genkey -name prime256v1 -out private_key.pem
 # Extract public key: openssl ec -in private_key.pem -pubout -outform DER|tail -c 65|base64|tr -d '=' |tr '/+' '_-'
 # Extract private key: openssl ec -in private_key.pem -outform DER|tail -c +8|head -c 32|base64|tr -d '=' |tr '/+' '_-'
 WEBPUSH_PUBLIC_KEY=your-public-key-here
 WEBPUSH_PRIVATE_KEY=your-private-key-here
 ```
-{% endcode %}
 
 ### Step 2: Create the Subscription Entity
 
-{% code title="src/Entity/PushSubscription.php" %}
-```php
+```php title="src/Entity/PushSubscription.php"
 <?php
 
 declare(strict_types=1);
@@ -95,12 +90,10 @@ class PushSubscription extends WebPushSubscription
     }
 }
 ```
-{% endcode %}
 
 ### Step 3: Create the Repository
 
-{% code title="src/Repository/PushSubscriptionRepository.php" %}
-```php
+```php title="src/Repository/PushSubscriptionRepository.php"
 <?php
 
 declare(strict_types=1);
@@ -145,12 +138,10 @@ class PushSubscriptionRepository extends ServiceEntityRepository
     }
 }
 ```
-{% endcode %}
 
 ### Step 4: Create the Subscription Controller
 
-{% code title="src/Controller/PushSubscriptionController.php" %}
-```php
+```php title="src/Controller/PushSubscriptionController.php"
 <?php
 
 declare(strict_types=1);
@@ -237,12 +228,10 @@ class PushSubscriptionController extends AbstractController
     }
 }
 ```
-{% endcode %}
 
 ### Step 5: Create the Notification Service
 
-{% code title="src/Service/PushNotificationService.php" %}
-```php
+```php title="src/Service/PushNotificationService.php"
 <?php
 
 declare(strict_types=1);
@@ -314,12 +303,10 @@ final readonly class PushNotificationService
     }
 }
 ```
-{% endcode %}
 
 ### Step 6: Client-side JavaScript
 
-{% code title="public/js/push-notifications.js" %}
-```javascript
+```javascript title="public/js/push-notifications.js"
 // Request notification permission
 async function requestNotificationPermission() {
     const permission = await Notification.requestPermission();
@@ -428,10 +415,8 @@ function arrayBufferToBase64(buffer) {
         .replace(/=+$/, '');
 }
 ```
-{% endcode %}
 
-{% code title="public/service-worker.js" %}
-```javascript
+```javascript title="public/service-worker.js"
 self.addEventListener('push', function(event) {
     if (!event.data) {
         return;
@@ -453,12 +438,10 @@ self.addEventListener('notificationclick', function(event) {
     );
 });
 ```
-{% endcode %}
 
 ### Step 7: Usage Example
 
-{% code title="src/Controller/NotificationTestController.php" %}
-```php
+```php title="src/Controller/NotificationTestController.php"
 <?php
 
 declare(strict_types=1);
@@ -488,7 +471,6 @@ class NotificationTestController extends AbstractController
     }
 }
 ```
-{% endcode %}
 
 ## Demo Application
 

@@ -21,9 +21,9 @@
 * Optional:
   * A PSR-3 (Logger Interface) implementation for debugging
 
-{% hint style="success" %}
-This library provides JWT Provider implementations for [web-token](https://web-token.spomky-labs.com) and [lcobucci/jwt](https://github.com/lcobucci/jwt)
-{% endhint %}
+!!! success
+
+    This library provides JWT Provider implementations for [web-token](https://web-token.spomky-labs.com) and [lcobucci/jwt](https://github.com/lcobucci/jwt)
 
 ### Payload extension
 

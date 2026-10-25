@@ -11,9 +11,9 @@ A subscription is a unique identifier that represents the user's device and brow
 
 On client side (Javascript), you can simply send to your server the object you receive using `JSON.stringify`.
 
-{% hint style="info" %}
-Javascript examples to get a Subscription from the web browser are not provided here. Please refer to other resources such as blog posts or library documentation.
-{% endhint %}
+!!! info
+
+    Javascript examples to get a Subscription from the web browser are not provided here. Please refer to other resources such as blog posts or library documentation.
 
 A subscription object will look like:
 
@@ -83,9 +83,9 @@ This will result in something like the following:
 }
 ```
 
-{% hint style="warning" %}
-The order of `supportedContentEncodings` is important. First supported item will be used. If possible, `AES128GCM` should be used as preferred content encoding.
-{% endhint %}
+!!! warning
+
+    The order of `supportedContentEncodings` is important. First supported item will be used. If possible, `AES128GCM` should be used as preferred content encoding.
 
 ## Subscription Lifecycle
 
@@ -399,9 +399,9 @@ class NotificationDispatcher
 }
 ```
 
-{% hint style="info" %}
-**Note**: The web-push library itself does not provide caching functionality, as this is the responsibility of your application layer. The examples above show recommended patterns for implementing caching in your application.
-{% endhint %}
+!!! info
+
+    **Note**: The web-push library itself does not provide caching functionality, as this is the responsibility of your application layer. The examples above show recommended patterns for implementing caching in your application.
 
 ## Subscription Lifecycle and Expiration Management
 
@@ -750,9 +750,9 @@ Different push services have different expiration policies:
 | Apple Push | ~30 days of inactivity |
 | Windows Push | Variable, typically 30-90 days |
 
-{% hint style="warning" %}
-These are **estimated** timeframes based on observed behavior. Push services do not publicly document their exact expiration policies, and they may change at any time.
-{% endhint %}
+!!! warning
+
+    These are **estimated** timeframes based on observed behavior. Push services do not publicly document their exact expiration policies, and they may change at any time.
 
 ### Best Practices
 
@@ -865,9 +865,9 @@ class SubscriptionManager
 }
 ```
 
-{% hint style="success" %}
-**Key Takeaway**: Web Push subscriptions don't have built-in expiration tracking. Your application must implement tracking and cleanup strategies to maintain a healthy subscription database.
-{% endhint %}
+!!! success
+
+    **Key Takeaway**: Web Push subscriptions don't have built-in expiration tracking. Your application must implement tracking and cleanup strategies to maintain a healthy subscription database.
 
 ## Common Issues
 
