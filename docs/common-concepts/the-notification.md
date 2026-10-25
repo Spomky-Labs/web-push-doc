@@ -1,4 +1,4 @@
-# The Notification
+# The notification
 
 To reach the client (web browser), you need to send a Notification to the Subscription.
 
@@ -22,11 +22,11 @@ $notification = Notification::create()
 ;
 ```
 
-## TTL (Time-To-Live)
+## TTL (time-to-live)
 
 With this feature, a value in seconds is added to the notification. It suggests how long a push message is retained by the push service. A value of 0 (zero) indicates the notification is delivered immediately.
 
-### Using TTL Constants
+### Using TTL constants
 
 The library provides predefined constants for common TTL values:
 
@@ -49,7 +49,7 @@ $notification = Notification::create()
 // TTL_FOUR_WEEKS    = 2419200
 ```
 
-### Using Custom TTL Values
+### Using custom TTL values
 
 You can also specify custom TTL values in seconds:
 
@@ -107,7 +107,7 @@ $notification = Notification::create()
 ;
 ```
 
-## Asynchronous Response
+## Asynchronous response
 
 Your application may prefer asynchronous responses to request confirmation from the push service when a push message is delivered and then acknowledged by the user agent. The push service MUST support delivery confirmations to use this feature.
 
@@ -125,7 +125,7 @@ $notification = Notification::create()
 
     The `async` mode is not recognized by all Web Push services. In case of failure, you should try sending `sync` notifications.
 
-## JSON Messages
+## JSON messages
 
 As mentioned in the overview section, the specification [defines a structure for the payload](https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification#parameters). This structure contains properties that the client should understand and render in an appropriate way.
 
@@ -221,9 +221,9 @@ self.addEventListener('push', function(event) {
 });
 ```
 
-## Best Practices
+## Best practices
 
-### Choose Appropriate TTL Values
+### Choose appropriate TTL values
 
 The Time-To-Live (TTL) determines how long notifications are retained if the user is offline:
 
@@ -244,7 +244,7 @@ $persistentNotification = Notification::create()
     ->withTTL(Notification::TTL_ONE_WEEK);
 ```
 
-### Use Topics Wisely
+### Use topics wisely
 
 Topics prevent notification spam by replacing old notifications with new ones:
 
@@ -265,7 +265,7 @@ $mention = Notification::create()
     ->withPayload('Sarah mentioned you in a comment');
 ```
 
-### Set Appropriate Urgency
+### Set appropriate urgency
 
 Match urgency to content to optimize battery life:
 
@@ -295,7 +295,7 @@ Notification::create()
     ->withTTL(Notification::TTL_FOUR_WEEKS);
 ```
 
-### Craft Effective Messages
+### Craft effective messages
 
 Good notification messages are:
 - **Clear**: User understands the content immediately
@@ -326,7 +326,7 @@ $notification = Notification::create()
     ->withTTL(Notification::TTL_ONE_DAY);
 ```
 
-### Optimize for Mobile
+### Optimize for mobile
 
 Mobile devices have limited battery and screen space:
 
@@ -344,9 +344,9 @@ $mobileNotification = Message::create('New Message')
     ->vibrate(200, 100, 200); // Short vibration pattern
 ```
 
-## Common Notification Patterns
+## Common notification patterns
 
-### 1. Chat Message
+### 1. Chat message
 
 ```php
 $chatMessage = Message::create($senderName)
@@ -370,7 +370,7 @@ $notification = Notification::create()
     ->withTTL(Notification::TTL_ONE_HOUR);
 ```
 
-### 2. System Alert
+### 2. System alert
 
 ```php
 $alert = Message::create('System Maintenance')
@@ -387,7 +387,7 @@ $notification = Notification::create()
     ->withTTL(1800); // 30 minutes
 ```
 
-### 3. News Update
+### 3. News update
 
 ```php
 $news = Message::create('Breaking News')
@@ -406,7 +406,7 @@ $notification = Notification::create()
     ->withTTL(Notification::TTL_ONE_DAY);
 ```
 
-### 4. Silent Background Sync
+### 4. Silent background sync
 
 ```php
 // Silent notification for background sync
@@ -417,7 +417,7 @@ $syncNotification = Notification::create()
     ->withTTL(Notification::TTL_IMMEDIATE); // Deliver immediately or not at all
 ```
 
-## Handling Delivery Failures
+## Handling delivery failures
 
 Always handle failures gracefully:
 
@@ -455,7 +455,7 @@ try {
 }
 ```
 
-## Testing Notifications
+## Testing notifications
 
 Always test your notifications before sending to production:
 
@@ -476,9 +476,9 @@ $report = $webPush->send(
 assert($report->isSuccess(), 'Test notification failed to send');
 ```
 
-## Performance Considerations
+## Performance considerations
 
-### Batch Sending
+### Batch sending
 
 When sending to many subscriptions, batch efficiently:
 
@@ -497,7 +497,7 @@ foreach ($subscriptions as $subscription) {
 }
 ```
 
-### Respect Rate Limits
+### Respect rate limits
 
 Push services have rate limits. Implement throttling:
 
@@ -511,11 +511,11 @@ foreach ($subscriptions as $subscription) {
 }
 ```
 
-## Validation Exceptions
+## Validation exceptions
 
 The library throws specific exceptions when notification properties are invalid. Each exception provides direct access to the problematic value for better debugging.
 
-### Available Exceptions
+### Available exceptions
 
 ```php
 use WebPush\Exception\InvalidTopicException;
@@ -572,7 +572,7 @@ try {
 
 **Valid urgency values:** `very-low`, `low`, `normal`, `high`
 
-### Handling Multiple Validations
+### Handling multiple validations
 
 Catch specific exceptions for targeted error handling:
 
@@ -600,7 +600,7 @@ try {
 
     See the [Exceptions](exceptions.md) page for complete documentation on error handling strategies and best practices.
 
-## Next Steps
+## Next steps
 
 - Understand [Status Reports](the-status-report.md) to handle delivery results
 - Learn about [Subscriptions](the-subscription.md) management

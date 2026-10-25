@@ -1,4 +1,4 @@
-# The Extension Manager
+# The extension manager
 
 The Web Push service requires an Extension Manager. This object manages extensions that will manipulate the request before sending it to the Push Service.
 
@@ -23,7 +23,7 @@ $extensionManager = ExtensionManager::create()
 
     Please note that the TTL Extension is usually required by Push Services. To avoid any trouble, please use all extensions.
 
-## Payload Extension
+## Payload extension
 
 The payload extension allows Notifications to have a payload. This extension requires Content Encoding objects that will be responsible for the payload encryption.
 
@@ -50,7 +50,7 @@ $extensionManager = ExtensionManager::create()
 ;
 ```
 
-## VAPID Extension
+## VAPID extension
 
 The [VAPID header](../common-concepts/vapid.md) authenticates your server and prevents malicious applications from sending notifications to your users. The header contains a signed JSON Web Token (JWS).
 

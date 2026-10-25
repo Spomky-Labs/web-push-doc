@@ -9,7 +9,7 @@
 
 * A PSR-3 (Logger Interface) implementation for debugging
 
-## Extension Specific
+## Extension specific
 
 ### VAPID extension
 

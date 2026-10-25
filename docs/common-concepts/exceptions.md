@@ -2,7 +2,7 @@
 
 The Web Push library uses a hierarchy of specific exceptions to provide clear error messages and enable precise error handling.
 
-## Exception Hierarchy
+## Exception hierarchy
 
 ```
 WebPushException (interface)
@@ -15,7 +15,7 @@ WebPushException (interface)
     └── OperationException (deprecated, use specific exceptions)
 ```
 
-## Validation Exceptions
+## Validation exceptions
 
 All validation exceptions extend `ValidationException` and expose the problematic value as a `public readonly` property, making debugging easier.
 
@@ -118,9 +118,9 @@ try {
 }
 ```
 
-## Error Handling Strategies
+## Error handling strategies
 
-### Strategy 1: Catch Specific Exceptions
+### Strategy 1: Catch specific exceptions
 
 Handle each type of validation error differently:
 
@@ -165,7 +165,7 @@ function createNotification(array $data): Notification
 }
 ```
 
-### Strategy 2: Catch All Validation Errors
+### Strategy 2: Catch all validation errors
 
 Use the base `ValidationException` to catch any validation error:
 
@@ -200,7 +200,7 @@ class NotificationFactory
 }
 ```
 
-### Strategy 3: Provide User Feedback
+### Strategy 3: Provide user feedback
 
 Use exception properties to give specific feedback to users:
 
@@ -241,7 +241,7 @@ class NotificationController
 }
 ```
 
-### Strategy 4: Logging with Context
+### Strategy 4: Logging with context
 
 Log validation errors with full context for debugging:
 
@@ -277,9 +277,9 @@ class NotificationLogger
 }
 ```
 
-## Best Practices
+## Best practices
 
-### 1. Catch Specific Exceptions
+### 1. Catch specific exceptions
 
 Prefer catching specific exceptions over the generic `ValidationException` when you need different handling:
 
@@ -299,7 +299,7 @@ try {
 }
 ```
 
-### 2. Use Exception Properties
+### 2. Use exception properties
 
 Leverage the `public readonly` properties for debugging and logging:
 
@@ -321,7 +321,7 @@ catch (InvalidTopicException $e) {
 }
 ```
 
-### 3. Validate Early
+### 3. Validate early
 
 Validate user input as early as possible:
 
@@ -342,7 +342,7 @@ public function scheduleNotification(array $data): void
 }
 ```
 
-### 4. Provide Helpful Error Messages
+### 4. Provide helpful error messages
 
 Transform technical exceptions into user-friendly messages:
 
@@ -367,9 +367,9 @@ public function createNotificationFromForm(array $form): Notification
 }
 ```
 
-## Common Scenarios
+## Common scenarios
 
-### Form Validation
+### Form validation
 
 ```php
 class NotificationFormValidator
@@ -406,7 +406,7 @@ class NotificationFormValidator
 }
 ```
 
-### API Error Responses
+### API error responses
 
 ```php
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -508,7 +508,7 @@ try {
 ✅ **Granular Handling** - Catch and handle specific error types differently
 ✅ **User-Friendly** - Transform technical errors into helpful messages
 
-## Next Steps
+## Next steps
 
 - Learn about [Notifications](the-notification.md) and their properties
 - Understand [Status Reports](the-status-report.md) for delivery errors

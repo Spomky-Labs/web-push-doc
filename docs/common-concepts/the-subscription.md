@@ -1,4 +1,4 @@
-# The Subscription
+# The subscription
 
 The subscription is created on client side when the end-user allows your application to send push messages.
 
@@ -7,7 +7,7 @@ A subscription is a unique identifier that represents the user's device and brow
 - **Encryption keys** for securing the message payload
 - **Supported content encodings** for payload encryption
 
-## Creating a Subscription
+## Creating a subscription
 
 On client side (Javascript), you can simply send to your server the object you receive using `JSON.stringify`.
 
@@ -27,13 +27,13 @@ A subscription object will look like:
 }
 ```
 
-### Understanding the Subscription Components
+### Understanding the subscription components
 
 - **endpoint**: The unique URL where your server sends notifications. Each subscription has a different endpoint.
 - **keys.auth**: Authentication secret for message encryption
 - **keys.p256dh**: Public key for Elliptic Curve Diffie-Hellman key agreement
 
-## Server-Side Processing
+## Server-side processing
 
 On server side, you can get a `WebPush\Subscription` object from the JSON string using the dedicated method `WebPush\Subscription::createFromString`.
 
@@ -45,7 +45,7 @@ use WebPush\Subscription;
 $subscription = Subscription::createFromString('{"endpoint":"https://updates.push.services.mozilla.com/wpush/v2/AAAAAAAA[…]AAAAAAAAA","keys":{"auth":"XXXXXXXXXXXXXX","p256dh":"YYYYYYYY[…]YYYYYYYYYYYYY"}}');
 ```
 
-## Supported Content Encodings
+## Supported content encodings
 
 By default, the content encoding `aesgcm` will be used. This encoding indicates how the payload of the notification should be formatted. The PushManager object from the Push API may list all acceptable encodings. In this case, it could be interesting to set these encodings to the Subscription object.
 
@@ -87,7 +87,7 @@ This will result in something like the following:
 
     The order of `supportedContentEncodings` is important. First supported item will be used. If possible, `AES128GCM` should be used as preferred content encoding.
 
-## Subscription Lifecycle
+## Subscription lifecycle
 
 ### 1. Creation
 A subscription is created when the user grants notification permission and your service worker subscribes to push notifications.
@@ -113,9 +113,9 @@ Always handle expired subscriptions:
 - Remove them from your database when you receive a 404 or 410 error
 - Implement a strategy to detect and clean abandoned subscriptions
 
-## Best Practices
+## Best practices
 
-### Store Essential Information
+### Store essential information
 ```php
 // Minimum data to store
 $subscriptionData = [
@@ -127,7 +127,7 @@ $subscriptionData = [
 ];
 ```
 
-### Handle Multiple Subscriptions per User
+### Handle multiple subscriptions per user
 A single user may have multiple subscriptions (different devices/browsers). Store all of them:
 
 ```php
@@ -142,7 +142,7 @@ foreach ($userSubscriptions as $subscription) {
 }
 ```
 
-### Implement Subscription Refresh
+### Implement subscription refresh
 If a subscription expires, prompt the user to resubscribe:
 
 ```javascript
@@ -154,7 +154,7 @@ if (!subscription) {
 }
 ```
 
-### Security Considerations
+### Security considerations
 
 1. **Validate Endpoint URLs**: Ensure endpoints are from known push services
 2. **Store Securely**: Treat subscriptions as sensitive data
@@ -183,7 +183,7 @@ if (!$isValid) {
 }
 ```
 
-## Subscription Uniqueness
+## Subscription uniqueness
 
 Each subscription is unique to:
 - A specific browser
@@ -196,7 +196,7 @@ This means:
 - The same user on desktop and mobile will have 2 different subscriptions
 - If a user clears their browser data, they will get a new subscription
 
-## Testing Subscriptions
+## Testing subscriptions
 
 Always test your subscription handling:
 
@@ -211,13 +211,13 @@ assert(in_array('auth', array_keys($testSubscription->getKeys())));
 assert(in_array('p256dh', array_keys($testSubscription->getKeys())));
 ```
 
-## Performance Optimization
+## Performance optimization
 
-### Caching Subscriptions
+### Caching subscriptions
 
 When sending notifications to multiple users or sending frequently, implement caching strategies to improve performance:
 
-#### Application-Level Caching
+#### Application-level caching
 
 Use your application's cache layer (Redis, Memcached, etc.) to cache subscription lookups:
 
@@ -260,7 +260,7 @@ class CachedSubscriptionRepository
 }
 ```
 
-#### Doctrine Query Result Cache
+#### Doctrine query result cache
 
 If using Doctrine, leverage query result caching:
 
@@ -283,7 +283,7 @@ class UserRepository extends EntityRepository
 }
 ```
 
-#### Batch Loading
+#### Batch loading
 
 When sending to multiple users, load subscriptions in batches to reduce database queries:
 
@@ -315,7 +315,7 @@ class BulkNotificationSender
 }
 ```
 
-#### Cache Invalidation Strategy
+#### Cache invalidation strategy
 
 Always invalidate the cache when subscriptions change:
 
@@ -346,7 +346,7 @@ class SubscriptionService
 }
 ```
 
-### Best Practices for High-Volume Sending
+### Best practices for high-volume sending
 
 When sending to thousands of users:
 
@@ -403,9 +403,9 @@ class NotificationDispatcher
 
     **Note**: The web-push library itself does not provide caching functionality, as this is the responsibility of your application layer. The examples above show recommended patterns for implementing caching in your application.
 
-## Subscription Lifecycle and Expiration Management
+## Subscription lifecycle and expiration management
 
-### Understanding Subscription Expiration
+### Understanding subscription expiration
 
 Web Push subscriptions **do not have explicit expiration dates**. The subscription JSON from the browser contains no temporal information:
 
@@ -421,7 +421,7 @@ Web Push subscriptions **do not have explicit expiration dates**. The subscripti
 
 The only way to know a subscription has expired is to attempt sending and receive a 404 or 410 error.
 
-### Why Subscriptions Expire
+### Why subscriptions expire
 
 1. **User Revocation** - User denies notification permission
 2. **Browser Data Clearing** - User clears browser data
@@ -429,7 +429,7 @@ The only way to know a subscription has expired is to attempt sending and receiv
 4. **Push Service Policy** - Services may expire inactive subscriptions (timeframes vary by provider)
 5. **VAPID Key Changes** - Changing your VAPID keys invalidates old subscriptions
 
-### Tracking Subscription Health
+### Tracking subscription health
 
 Since subscriptions don't have built-in expiration dates, track metadata at the application level:
 
@@ -504,7 +504,7 @@ class UserSubscription
 }
 ```
 
-### Identifying Likely Expired Subscriptions
+### Identifying likely expired subscriptions
 
 Use heuristics to identify subscriptions that are probably expired:
 
@@ -570,9 +570,9 @@ class SubscriptionHealthService
 }
 ```
 
-### Automated Cleanup Strategies
+### Automated cleanup strategies
 
-#### Strategy 1: Clean After Failed Sends
+#### Strategy 1: Clean after failed sends
 
 Update subscription status after each send attempt:
 
@@ -631,7 +631,7 @@ class NotificationSender
 }
 ```
 
-#### Strategy 2: Scheduled Cleanup Job
+#### Strategy 2: Scheduled cleanup job
 
 Run periodic cleanup to remove stale subscriptions:
 
@@ -672,7 +672,7 @@ class CleanupExpiredSubscriptionsCommand extends Command
 }
 ```
 
-#### Strategy 3: Proactive Health Check
+#### Strategy 3: Proactive health check
 
 Test subscriptions before important campaigns:
 
@@ -739,7 +739,7 @@ class SubscriptionHealthChecker
 }
 ```
 
-### Push Service Expiration Policies
+### Push service expiration policies
 
 Different push services have different expiration policies:
 
@@ -754,7 +754,7 @@ Different push services have different expiration policies:
 
     These are **estimated** timeframes based on observed behavior. Push services do not publicly document their exact expiration policies, and they may change at any time.
 
-### Best Practices
+### Best practices
 
 1. **Track Metadata**: Always store `createdAt`, `lastSuccessfulSendAt`, and `consecutiveFailures`
 2. **Update After Every Send**: Mark success or failure after each notification attempt
@@ -764,7 +764,7 @@ Different push services have different expiration policies:
 6. **Monitor Health**: Track subscription health scores for analytics
 7. **Re-subscription Flow**: Make it easy for users to re-subscribe if needed
 
-### Example: Complete Subscription Management
+### Example: Complete subscription management
 
 ```php
 class SubscriptionManager
@@ -869,22 +869,22 @@ class SubscriptionManager
 
     **Key Takeaway**: Web Push subscriptions don't have built-in expiration tracking. Your application must implement tracking and cleanup strategies to maintain a healthy subscription database.
 
-## Common Issues
+## Common issues
 
-### Subscription Not Received
+### Subscription not received
 - Check that the user granted permission
 - Verify HTTPS is enabled
 - Ensure service worker is properly registered
 
-### Subscription Immediately Expires
+### Subscription immediately expires
 - Check VAPID keys match between client and server
 - Verify the push service endpoint is accessible
 - Ensure proper payload encryption
 
-### Multiple Subscriptions for Same User
+### Multiple subscriptions for same user
 This is normal and expected. Users can have multiple devices and browsers.
 
-## Next Steps
+## Next steps
 
 - Learn how to create [Notifications](the-notification.md) to send to your subscriptions
 - Understand [Status Reports](the-status-report.md) to handle delivery results

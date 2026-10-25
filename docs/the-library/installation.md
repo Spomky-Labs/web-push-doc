@@ -6,7 +6,7 @@ The library can be installed using the package `spomky-labs/web-push-lib`
 composer require spomky-labs/web-push-lib
 ```
 
-## VAPID Header
+## VAPID header
 
 The [VAPID header](../common-concepts/vapid.md) authenticates your server and prevents malicious applications from sending notifications to your users. The header contains a signed JSON Web Token (JWS).
 

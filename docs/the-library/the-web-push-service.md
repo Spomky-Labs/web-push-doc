@@ -1,4 +1,4 @@
-# The Web Push Service
+# The Web Push service
 
 The WebPush object requires a [HTTP Client](https://symfony.com/doc/current/http_client.html) and an [Extension Manager](advanced-service.md).
 
@@ -31,7 +31,7 @@ $statusReport = $service->send($notification, $subscription);
 
     In this example, we load the Subscription object from a string, but you usually retrieve the Subscription objects from a database or a dedicated storage.
 
-## Sending to Multiple Subscriptions
+## Sending to multiple subscriptions
 
 The `sendToMultiple()` method allows you to send a notification to multiple subscriptions efficiently:
 
@@ -75,7 +75,7 @@ foreach ($retryable as $report) {
 
     Unlike `send()`, the `sendToMultiple()` method does not throw exceptions for individual failures. It attempts to send to all subscriptions and returns a StatusReport for each one, allowing you to inspect both successes and failures.
 
-## Error Handling
+## Error handling
 
 The service may throw exceptions for transport or HTTP errors:
 
@@ -108,7 +108,7 @@ try {
 }
 ```
 
-## Validation Exceptions
+## Validation exceptions
 
 When creating notifications with invalid properties, the library throws specific exceptions. Each exception exposes the problematic value as a `public readonly` property for easy debugging:
 

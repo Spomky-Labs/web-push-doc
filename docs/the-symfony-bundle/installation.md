@@ -10,7 +10,7 @@ If you use Symfony Flex, the bundle is ready to be used. Otherwise, you must ena
 
 When done, the bundle is ready and can send the notifications. However, there are extra packages we highly recommend to install and set up.
 
-## VAPID Header
+## VAPID header
 
 The [VAPID header](../common-concepts/vapid.md) authenticates your server and prevents malicious applications from sending notifications to your users. The header contains a signed JSON Web Token (JWS).
 

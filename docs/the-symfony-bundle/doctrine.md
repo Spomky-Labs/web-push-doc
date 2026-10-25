@@ -2,14 +2,14 @@
 
 This section explains how to store `Subscription` objects using Doctrine ORM in your Symfony application.
 
-## Creating a Subscription Entity
+## Creating a subscription entity
 
 To persist subscriptions in your database, you need to create a Doctrine entity. There are two approaches:
 
 1. **Extend the base `WebPush\Subscription` class** (recommended for simplicity)
 2. **Implement the `WebPush\SubscriptionInterface` interface** (more flexibility)
 
-### Approach 1: Extending the Base Class
+### Approach 1: Extending the base class
 
 In this example, we create a Subscription entity that extends the base `WebPush\Subscription` class. We also associate one or more Subscription entities to a specific user (Many-To-One relationship).
 
@@ -73,7 +73,7 @@ class Subscription extends WebPushSubscription
 
     In this example, we assume you already have a valid User entity class.
 
-### The `User` Entity
+### The `User` entity
 
 Now, to have a bidirectional relationship between this class and the User entity class, we will add this relationship to the User class.
 
@@ -132,7 +132,7 @@ class User //Usual interface here
 }
 ```
 
-## Sending Notifications To A User
+## Sending notifications to a user
 
 Now that your entities are set, you can register Subcriptions and assign them to your users. To send a Notification to a specific user, you just have to get all subscriptions using `$user->getSubscriptions()`.
 
@@ -146,7 +146,7 @@ foreach ($subscriptions as $subscription) {
 }
 ```
 
-### Approach 2: Implementing the Interface Directly
+### Approach 2: Implementing the interface directly
 
 Instead of extending the `WebPush\Subscription` class, you can create your own entity class that implements the `WebPush\SubscriptionInterface` interface. This approach gives you more flexibility in how you structure your entity.
 

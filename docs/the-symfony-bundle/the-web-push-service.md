@@ -1,4 +1,4 @@
-# The Web Push Service
+# The Web Push service
 
 The bundle provides a public Web Push service that you can inject into your application components.
 
@@ -60,7 +60,7 @@ final readonly class SendPushNotifications
 }
 ```
 
-## Validation Exceptions
+## Validation exceptions
 
 When creating notifications from user input or configuration, validation exceptions provide clear error messages with contextual properties:
 

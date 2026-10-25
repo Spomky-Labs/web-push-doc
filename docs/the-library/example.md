@@ -2,7 +2,7 @@
 
 This page provides a complete example of implementing Web Push notifications using the standalone library (without Symfony).
 
-## Complete Working Example
+## Complete working example
 
 ### Step 1: Installation
 
@@ -12,7 +12,7 @@ composer require symfony/http-client
 composer require symfony/clock
 ```
 
-### Step 2: Generate VAPID Keys
+### Step 2: Generate VAPID keys
 
 ```bash
 # Generate private key
@@ -25,7 +25,7 @@ openssl ec -in private_key.pem -pubout -outform DER|tail -c 65|base64|tr -d '=' 
 openssl ec -in private_key.pem -outform DER|tail -c +8|head -c 32|base64|tr -d '=' |tr '/+' '_-' > private_key.txt
 ```
 
-### Step 3: Create the Web Push Service
+### Step 3: Create the Web Push service
 
 ```php title="src/WebPushServiceFactory.php"
 <?php
@@ -101,7 +101,7 @@ class WebPushServiceFactory
 }
 ```
 
-### Step 4: Create a Subscription Manager
+### Step 4: Create a subscription manager
 
 ```php title="src/SubscriptionManager.php"
 <?php
@@ -189,7 +189,7 @@ class SubscriptionManager
 }
 ```
 
-### Step 5: Handle Subscription from Browser
+### Step 5: Handle subscription from browser
 
 ```php title="public/subscribe.php"
 <?php
@@ -224,7 +224,7 @@ http_response_code(201);
 echo json_encode(['message' => 'Subscription saved']);
 ```
 
-### Step 6: Send Notifications
+### Step 6: Send notifications
 
 ```php title="src/NotificationSender.php"
 <?php
@@ -333,7 +333,7 @@ class NotificationSender
 }
 ```
 
-### Step 7: Usage Example
+### Step 7: Usage example
 
 ```php title="examples/send-notification.php"
 <?php
@@ -538,7 +538,7 @@ self.addEventListener('notificationclick', function(event) {
 });
 ```
 
-### Step 9: Simple HTML Page
+### Step 9: Simple HTML page
 
 ```html title="public/index.html"
 <!DOCTYPE html>
@@ -561,7 +561,7 @@ self.addEventListener('notificationclick', function(event) {
 </html>
 ```
 
-## Running the Example
+## Running the example
 
 1. **Generate VAPID keys** (Step 2)
 2. **Create the directory structure**:

@@ -1,6 +1,6 @@
 # Configuration
 
-## VAPID Support
+## VAPID support
 
 To enable the VAPID header feature, you must install a JWS Provider (see [installation](installation.md)) and configure it with your public and private key (see [this page](../common-concepts/vapid.md) to create these keys)
 
@@ -32,7 +32,7 @@ webpush:
 
     You cannot enable both `web-token` and `lcobucci/jwt` at the same time
 
-### Custom JWS Provider
+### Custom JWS provider
 
 If you want to use a custom JWS Provider (not `web-token` or `lcobucci/jwt`), you can configure it as follows:
 
@@ -48,7 +48,7 @@ webpush:
 
 Your custom provider must implement the `WebPush\VAPID\JWSProvider` interface.
 
-### Token Lifetime
+### Token lifetime
 
 By default, the library generates VAPID headers that are valid for 1 hour. You can change this value if needed. The parameter requires a relative string as showed [in the PHP documentation](https://www.php.net/manual/en/datetime.formats.relative.php).
 
@@ -63,7 +63,7 @@ webpush:
 
     The token lifetime should not be greater than 24 hours. Most of the Web Push Services will reject such long-life tokens
 
-## Payload Support
+## Payload support
 
 ### Padding
 

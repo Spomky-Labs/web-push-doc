@@ -2,7 +2,7 @@
 
 This page provides a complete example of implementing Web Push notifications in a Symfony application.
 
-## Complete Working Example
+## Complete working example
 
 ### Step 1: Configuration
 
@@ -33,7 +33,7 @@ WEBPUSH_PUBLIC_KEY=your-public-key-here
 WEBPUSH_PRIVATE_KEY=your-private-key-here
 ```
 
-### Step 2: Create the Subscription Entity
+### Step 2: Create the subscription entity
 
 ```php title="src/Entity/PushSubscription.php"
 <?php
@@ -91,7 +91,7 @@ class PushSubscription extends WebPushSubscription
 }
 ```
 
-### Step 3: Create the Repository
+### Step 3: Create the repository
 
 ```php title="src/Repository/PushSubscriptionRepository.php"
 <?php
@@ -139,7 +139,7 @@ class PushSubscriptionRepository extends ServiceEntityRepository
 }
 ```
 
-### Step 4: Create the Subscription Controller
+### Step 4: Create the subscription controller
 
 ```php title="src/Controller/PushSubscriptionController.php"
 <?php
@@ -229,7 +229,7 @@ class PushSubscriptionController extends AbstractController
 }
 ```
 
-### Step 5: Create the Notification Service
+### Step 5: Create the notification service
 
 ```php title="src/Service/PushNotificationService.php"
 <?php
@@ -439,7 +439,7 @@ self.addEventListener('notificationclick', function(event) {
 });
 ```
 
-### Step 7: Usage Example
+### Step 7: Usage example
 
 ```php title="src/Controller/NotificationTestController.php"
 <?php
@@ -472,6 +472,6 @@ class NotificationTestController extends AbstractController
 }
 ```
 
-## Demo Application
+## Demo application
 
 For a complete working demo application, please visit: [https://github.com/Spomky-Labs/web-push-demo](https://github.com/Spomky-Labs/web-push-demo)

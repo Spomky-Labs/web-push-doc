@@ -1,4 +1,4 @@
-# Fluent Syntax
+# Fluent syntax
 
 In the documentation, you will see that methods are called "fluently".
 

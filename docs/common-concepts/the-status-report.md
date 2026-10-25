@@ -1,4 +1,4 @@
-# The Status Report
+# The status report
 
 After sending a notification, you will receive a StatusReport object.
 
@@ -12,7 +12,7 @@ This status report has the following properties:
 
 Depending on the status code, you will be able to know if it is a success or not. In case of success, you can directly access the management link (`location` header parameter) or the links entity fields in case of asynchronous call. In case of failure, the response code indicates the main reason for rejection (invalid authorization token, expired endpoint...)
 
-## Basic Usage
+## Basic usage
 
 ```php
 <?php
@@ -33,7 +33,7 @@ if(!$statusReport->isSuccess()) {
 }
 ```
 
-## Helper Methods
+## Helper methods
 
 The StatusReport provides several helper methods to simplify error handling:
 
@@ -57,7 +57,7 @@ $message = $statusReport->getErrorMessage();
 // Returns: "Rate limit exceeded", "Subscription expired", etc.
 ```
 
-### Simplified Error Handling
+### Simplified error handling
 
 ```php
 $report = $webPush->send($notification, $subscription);
@@ -87,11 +87,11 @@ if ($report->isRetryable()) {
 }
 ```
 
-## Understanding Status Codes
+## Understanding status codes
 
 The status code follows HTTP standards and indicates the result of the push notification delivery.
 
-### Success Codes (2xx)
+### Success codes (2xx)
 
 #### 201 Created
 The notification was successfully sent and queued for delivery.
@@ -104,7 +104,7 @@ if ($statusReport->isSuccess()) {
 }
 ```
 
-### Client Error Codes (4xx)
+### Client error codes (4xx)
 
 #### 400 Bad Request
 The request was malformed or invalid.
@@ -210,7 +210,7 @@ if ($report->getStatusCode() === 429) {
 }
 ```
 
-### Server Error Codes (5xx)
+### Server error codes (5xx)
 
 #### 500 Internal Server Error
 The push service encountered an error.
@@ -227,9 +227,9 @@ The push service is temporarily overloaded.
 
 **Action:** Retry later.
 
-## Handling Errors
+## Handling errors
 
-### Comprehensive Error Handling
+### Comprehensive error handling
 
 ```php
 use WebPush\Notification;
@@ -310,7 +310,7 @@ function sendWithErrorHandling(
 }
 ```
 
-### Retry Strategy with Exponential Backoff
+### Retry strategy with exponential backoff
 
 ```php
 function sendWithRetry(
@@ -347,7 +347,7 @@ function sendWithRetry(
 }
 ```
 
-## Batch Processing with Error Handling
+## Batch processing with error handling
 
 ### Using sendToMultiple()
 
@@ -382,7 +382,7 @@ foreach ($reports as $report) {
 
     The `sendToMultiple()` method does not throw exceptions for individual failures. Instead, it attempts to send to all subscriptions and returns a StatusReport for each one, allowing you to inspect successes and failures.
 
-### Filtering Reports
+### Filtering reports
 
 Use the static helper methods to filter and analyze batch results:
 
@@ -404,7 +404,7 @@ $stats = StatusReport::getStatistics($reports);
 // Returns: ['total' => 100, 'successful' => 85, 'failed' => 15, 'expired' => 5, 'retryable' => 3]
 ```
 
-### Complete Batch Processing Example
+### Complete batch processing example
 
 ```php
 use WebPush\Notification;
@@ -453,7 +453,7 @@ function sendToMultipleSubscriptions(
 }
 ```
 
-## Monitoring and Metrics
+## Monitoring and metrics
 
 Track your notification delivery metrics:
 
@@ -492,7 +492,7 @@ class NotificationMetrics
 }
 ```
 
-## Debugging Failed Deliveries
+## Debugging failed deliveries
 
 When debugging failures, collect all relevant information:
 
@@ -515,7 +515,7 @@ function debugFailedDelivery(StatusReport $report, Notification $notification, S
 }
 ```
 
-## Best Practices
+## Best practices
 
 1. **Always Check Success**: Don't assume notifications are delivered
 2. **Handle Expired Subscriptions**: Clean up your database immediately
@@ -526,24 +526,24 @@ function debugFailedDelivery(StatusReport $report, Notification $notification, S
 7. **Validate Early**: Check subscription format before sending
 8. **Test Thoroughly**: Test with real subscriptions from different browsers
 
-## Common Issues and Solutions
+## Common issues and solutions
 
-### High Failure Rate
+### High failure rate
 - Check VAPID keys are correctly configured
 - Verify payload encryption is working
 - Ensure subscriptions are fresh and valid
 
-### Subscriptions Expiring Quickly
+### Subscriptions expiring quickly
 - User might be clearing browser data frequently
 - Check if you're using the correct public key
 - Verify the subscription format is correct
 
-### Random Failures
+### Random failures
 - Implement retry logic with exponential backoff
 - Monitor push service status pages
 - Check for network connectivity issues
 
-## Next Steps
+## Next steps
 
 - Learn about [Notifications](the-notification.md) structure and options
 - Understand [Subscriptions](the-subscription.md) lifecycle

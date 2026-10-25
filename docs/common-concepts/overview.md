@@ -6,7 +6,7 @@ The notification types depend on the application. For example, it could be a not
 
 We will see in this documentation that the Web Push API offers several options to customize the notifications by adding buttons, vibration schema, images, urgency indicator and more.
 
-## How Web Push Works
+## How Web Push works
 
 Web Push involves three main actors:
 
@@ -14,7 +14,7 @@ Web Push involves three main actors:
 2. **The Push Service**: A service provided by the browser vendor (e.g., Google FCM, Mozilla Push Service) that routes notifications
 3. **Your Application Server**: Your backend that sends notifications
 
-### The Web Push Flow
+### The Web Push flow
 
 ```
 1. User visits your website
@@ -34,7 +34,7 @@ Web Push involves three main actors:
 8. Browser displays the notification to the user
 ```
 
-### Key Concepts
+### Key concepts
 
 **Subscription**: A unique endpoint and set of keys that identify a user's device and browser. Each user can have multiple subscriptions (desktop, mobile, etc.).
 
@@ -44,7 +44,7 @@ Web Push involves three main actors:
 
 **Service Worker**: A background script that runs independently of your web page and handles push events even when the site isn't open.
 
-## Use Cases
+## Use cases
 
 Web Push notifications are ideal for:
 
@@ -56,19 +56,19 @@ Web Push notifications are ideal for:
 
 ## Benefits of Web Push
 
-### For Users
+### For users
 - **Timely Information**: Receive updates instantly without checking the app
 - **Control**: Users must explicitly opt-in and can unsubscribe at any time
 - **Cross-Device**: Works on desktop and mobile browsers
 - **No App Installation**: Works directly in the browser, no app download required
 
-### For Developers
+### For developers
 - **Standard Protocol**: Based on open web standards (RFC 8030, 8291, 8292)
 - **Cross-Platform**: One implementation works across Chrome, Firefox, Safari, Edge
 - **Scalable**: Push services handle the infrastructure
 - **Reliable Delivery**: Guaranteed delivery even when the browser is closed
 
-## Browser Support
+## Browser support
 
 Web Push is supported by all modern browsers:
 
@@ -90,7 +90,7 @@ To implement Web Push notifications, you need:
 4. **VAPID Keys**: Public/private key pair to authenticate your server
 5. **Backend Implementation**: Server-side code to send notifications (this library!)
 
-## Security & Privacy
+## Security & privacy
 
 Web Push is designed with security and privacy in mind:
 
@@ -104,7 +104,7 @@ Web Push is designed with security and privacy in mind:
 
 You want to test it? Please go to [this demo page](https://serviceworke.rs/push-payload_demo.html) to see what your browser already supports.
 
-## Next Steps
+## Next steps
 
 Now that you understand the basics, explore the detailed documentation:
 
