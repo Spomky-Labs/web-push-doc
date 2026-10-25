@@ -1,4 +1,4 @@
-site_name: Web Push
+site_name: Web Push Framework
 site_description: Web push notifications for PHP and Symfony, after RFC 8030, RFC 8291 and RFC 8292.
 site_url: https://web-push.spomky-labs.com/
 site_author: Spomky-Labs
@@ -9,10 +9,6 @@ edit_uri: https://github.com/Spomky-Labs/web-push-doc/edit/3.2.x/docs/
 docs_dir: docs
 site_dir: site
 
-# The GitBook table of contents. It stays while GitBook serves the domain, and the navigation below says the
-# same thing in the words of MkDocs.
-exclude_docs: |
-  SUMMARY.md
 
 theme:
   name: material
@@ -154,7 +150,7 @@ extra:
     links:
       - name: All documentation
         link: https://docs.spomky-labs.com/
-      - name: Web Push on GitHub
+      - name: Web Push Framework on GitHub
         link: https://github.com/Spomky-Labs/web-push
       - name: Packagist
         link: https://packagist.org/packages/spomky-labs/web-push
